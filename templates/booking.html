@@ -1,0 +1,300 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}StayEase — Complete Your Reservation{% endblock %}
+
+{% block content %}
+<nav class="navbar">
+    <div class="nav-container">
+        <a class="logo" href="{% url 'hotel:home' %}">
+            <div class="logo-icon"><i class="fas fa-hotel"></i></div>
+            StayEase
+        </a>
+        <ul class="nav-links">
+            <li><a href="{% url 'hotel:home' %}">Home</a></li>
+            <li><a href="{% url 'hotel:search' %}">Rooms</a></li>
+            <li><a href="{% url 'hotel:search' %}">Reservations</a></li>
+        </ul>
+        <div class="nav-actions">
+            <form method="post" action="{% url 'hotel:logout' %}" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-outline">Log out</button>
+            </form>
+        </div>
+    </div>
+</nav>
+
+<div class="booking-container">
+    <a class="back-link" href="{% url 'hotel:search' %}?checkin={{ checkin }}&checkout={{ checkout }}">
+        <i class="fas fa-arrow-left"></i> Back to room availability
+    </a>
+
+    <div class="booking-header">
+        <h1>Complete Your Reservation</h1>
+        <p>Review your room selection and customize your stay</p>
+    </div>
+
+    <form method="post" action="{% url 'hotel:booking' room.room_id %}?checkin={{ checkin }}&checkout={{ checkout }}">
+        {% csrf_token %}
+        <input type="hidden" name="checkin" value="{{ checkin }}">
+        <input type="hidden" name="checkout" value="{{ checkout }}">
+        <input type="hidden" name="room_id" value="{{ room.room_id }}">
+
+        <div class="booking-layout">
+            <div class="booking-form">
+
+                <!-- Selected Room Info -->
+                <div class="form-card">
+                    <h3><i class="fas fa-door-open"></i> Selected Room</h3>
+                    <div style="display: flex; gap: 1rem; align-items: center; padding: 1rem; background: var(--bg-gray); border-radius: var(--radius);">
+                        <div>
+                            <div style="font-weight: 700; font-size: 1.1rem;">Room {{ room.room_id }}</div>
+                            <div style="color: var(--text-light);">{{ room.room_type.type_name|default:"Standard Room" }}</div>
+                            <div style="color: var(--success); font-weight: 600; margin-top: 0.25rem;">
+                                <i class="fas fa-check-circle"></i> Vacant - Available
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Guest Details -->
+                <div class="form-card">
+                    <h3><i class="fas fa-user"></i> Guest Details</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>First Name</label>
+                            <input type="text" name="first_name" placeholder="John"
+                                value="{{ form.first_name.value|default:guest.first_name }}">
+                        </div>
+                        <div class="form-group">
+                            <label>Last Name</label>
+                            <input type="text" name="last_name" placeholder="Doe"
+                                value="{{ form.last_name.value|default:guest.last_name }}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" name="email" placeholder="john@example.com"
+                            value="{{ form.email.value|default:guest.email_address }}">
+                    </div>
+                    <div class="form-group">
+                        <label>Phone</label>
+                        <input type="tel" name="phone" placeholder="+63 912 345 6789">
+                    </div>
+                </div>
+
+                <!-- Guest Count -->
+                <div class="form-card">
+                    <h3><i class="fas fa-users"></i> Number of Guests</h3>
+                    <div class="guest-inputs-booking">
+                        <div class="guest-input-booking">
+                            <label><i class="fas fa-user"></i> Adults (13+ years)</label>
+                            <input type="number" name="adults" value="2" min="1" max="50" onchange="calculateTotal()">
+                        </div>
+                        <div class="guest-input-booking">
+                            <label><i class="fas fa-child"></i> Children (0-12 years)</label>
+                            <input type="number" name="children" value="0" min="0" max="20" onchange="calculateTotal()">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Room Type Upgrade -->
+                <div class="form-card">
+                    <h3><i class="fas fa-star"></i> Upgrade Room Type</h3>
+                    <div class="room-types-grid">
+                        {% for value, label in form.room_type_upgrade.field.choices %}
+                        <div class="room-type-option {% if forloop.first %}selected{% endif %}"
+                             onclick="selectRoomType(this, '{{ value }}', {{ value|cut:'Standard'|default:'0'|cut:'Superior'|default:'1500'|cut:'Deluxe'|default:'3000'|cut:'Suite'|default:'8000' }})"
+                             data-upgrade="{{ value }}">
+                            <i class="fas {% if value == 'Standard' %}fa-bed{% elif value == 'Superior' %}fa-star{% elif value == 'Deluxe' %}fa-gem{% else %}fa-crown{% endif %}"></i>
+                            <h4>{{ value }}</h4>
+                            <div class="room-type-price">
+                                {% if value == 'Standard' %}Base Price
+                                {% elif value == 'Superior' %}+₱1,500/night
+                                {% elif value == 'Deluxe' %}+₱3,000/night
+                                {% else %}+₱8,000/night{% endif %}
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <input type="hidden" name="room_type_upgrade" id="selectedRoomTypeUpgrade" value="Standard">
+                </div>
+
+                <!-- Bed Type -->
+                <div class="form-card">
+                    <h3><i class="fas fa-bed"></i> Select Bed Type</h3>
+                    <div class="bed-types-grid">
+                        {% for value, label in form.bed_type.field.choices %}
+                        <div class="bed-type-option {% if forloop.first %}selected{% endif %}"
+                             onclick="selectBedType(this, '{{ value }}')" data-bed="{{ value }}">
+                            <div class="bed-icon"><i class="fas fa-bed"></i></div>
+                            <div class="bed-type-info">
+                                <h4>{{ label }}</h4>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <input type="hidden" name="bed_type" id="selectedBedType" value="Twin">
+                </div>
+
+                <!-- Additional Services from DB -->
+                <div class="form-card">
+                    <h3><i class="fas fa-concierge-bell"></i> Additional Services</h3>
+                    <div class="services-grid">
+                        {% for service in services %}
+                        <div class="service-option" onclick="toggleService(this, {{ service.price }}, {{ service.service_id }})">
+                            <h4><i class="fas fa-concierge-bell"></i> {{ service.service_name }}</h4>
+                            <div class="service-price">₱{{ service.price|floatformat:0 }}</div>
+                            <input type="checkbox" name="services" value="{{ service.service_id }}"
+                                style="display:none;" class="service-checkbox">
+                        </div>
+                        {% empty %}
+                        <p style="color: var(--text-medium);">No additional services available.</p>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- Payment Method -->
+                <div class="form-card">
+                    <h3><i class="fas fa-credit-card"></i> Payment Method</h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 0.75rem;">
+                        {% for value, label in form.payment_method.field.choices %}
+                        <div class="payment-option {% if forloop.first %}selected{% endif %}"
+                             onclick="selectPayment(this, '{{ value }}')">
+                            <i class="fas {% if 'Card' in value %}fa-credit-card{% elif 'Cash' in value %}fa-money-bill{% else %}fa-mobile-alt{% endif %}"></i>
+                            <span>{{ label }}</span>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <input type="hidden" name="payment_method" id="selectedPaymentMethod" value="Credit Card">
+                </div>
+
+            </div>
+
+            <!-- Right Summary Panel -->
+            <div class="booking-summary">
+                <div class="summary-card">
+                    <h3>Booking Summary</h3>
+
+                    <div class="summary-dates">
+                        <div class="summary-date-row">
+                            <span>Room</span>
+                            <strong>Room {{ room.room_id }}</strong>
+                        </div>
+                        <div class="summary-date-row">
+                            <span>Type</span>
+                            <strong>{{ room.room_type.type_name|default:"Standard" }}</strong>
+                        </div>
+                        <div class="summary-date-row">
+                            <span>Check-in</span>
+                            <strong>{{ checkin_date|date:"M j, Y" }}</strong>
+                        </div>
+                        <div class="summary-date-row">
+                            <span>Check-out</span>
+                            <strong>{{ checkout_date|date:"M j, Y" }}</strong>
+                        </div>
+                        <div class="summary-date-row">
+                            <span>Duration</span>
+                            <strong>{{ nights }} night{{ nights|pluralize }}</strong>
+                        </div>
+                        <div class="summary-date-row">
+                            <span>Upgrade</span>
+                            <strong id="summaryUpgrade">Standard</strong>
+                        </div>
+                        <div class="summary-date-row">
+                            <span>Bed Type</span>
+                            <strong id="summaryBedType">Twin</strong>
+                        </div>
+                    </div>
+
+                    <div class="price-breakdown">
+                        <div class="price-row">
+                            <span>Base Room ({{ nights }} night{{ nights|pluralize }})</span>
+                            <span id="priceBaseRoom">₱{{ room.room_price|floatformat:0 }}</span>
+                        </div>
+                        <div class="price-row">
+                            <span>Room Upgrade</span>
+                            <span id="priceUpgrade">₱0</span>
+                        </div>
+                        <div class="price-row">
+                            <span>Services</span>
+                            <span id="priceServices">₱0</span>
+                        </div>
+                        <div class="price-row">
+                            <span>Taxes & fees (12%)</span>
+                            <span id="priceTax">₱0</span>
+                        </div>
+                        <div class="price-row total">
+                            <span>Total</span>
+                            <span id="priceTotal">₱{{ room.room_price|floatformat:0 }}</span>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="confirm-btn">
+                        <i class="fas fa-lock"></i> Confirm & Pay
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+    const basePrice = {{ room.room_price }};
+    const nights = {{ nights }};
+    const TAX = 0.12;
+    const upgradeMap = { 'Standard': 0, 'Superior': 1500, 'Deluxe': 3000, 'Suite': 8000 };
+    let selectedUpgrade = 0;
+    let selectedServices = 0;
+
+    function selectRoomType(el, type) {
+        document.querySelectorAll('.room-type-option').forEach(o => o.classList.remove('selected'));
+        el.classList.add('selected');
+        selectedUpgrade = upgradeMap[type] || 0;
+        document.getElementById('selectedRoomTypeUpgrade').value = type;
+        document.getElementById('summaryUpgrade').textContent = type;
+        calculateTotal();
+    }
+
+    function selectBedType(el, type) {
+        document.querySelectorAll('.bed-type-option').forEach(o => o.classList.remove('selected'));
+        el.classList.add('selected');
+        document.getElementById('selectedBedType').value = type;
+        document.getElementById('summaryBedType').textContent = type;
+    }
+
+    function toggleService(el, price, id) {
+        el.classList.toggle('selected');
+        const cb = el.querySelector('.service-checkbox');
+        cb.checked = el.classList.contains('selected');
+        selectedServices = 0;
+        document.querySelectorAll('.service-option.selected').forEach(s => {
+            selectedServices += parseFloat(s.getAttribute('onclick').match(/(\d+(?:\.\d+)?),/)[1]);
+        });
+        calculateTotal();
+    }
+
+    function selectPayment(el, method) {
+        document.querySelectorAll('.payment-option').forEach(p => p.classList.remove('selected'));
+        el.classList.add('selected');
+        document.getElementById('selectedPaymentMethod').value = method;
+    }
+
+    function calculateTotal() {
+        const base = basePrice * nights;
+        const upgrade = selectedUpgrade * nights;
+        const subtotal = base + upgrade + selectedServices;
+        const tax = subtotal * TAX;
+        const total = subtotal + tax;
+
+        document.getElementById('priceBaseRoom').textContent = '₱' + Math.round(base).toLocaleString();
+        document.getElementById('priceUpgrade').textContent = '₱' + Math.round(upgrade).toLocaleString();
+        document.getElementById('priceServices').textContent = '₱' + Math.round(selectedServices).toLocaleString();
+        document.getElementById('priceTax').textContent = '₱' + Math.round(tax).toLocaleString();
+        document.getElementById('priceTotal').textContent = '₱' + Math.round(total).toLocaleString();
+    }
+
+    calculateTotal();
+</script>
+{% endblock %}
