@@ -138,3 +138,12 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'hotelreservationstayease@gmail.com'
 EMAIL_HOST_PASSWORD = 'xnps luak ykyu yhiu'
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+STATIC_URL = 'static/'
+
+STATIC_URL = '/static/'
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+]
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
