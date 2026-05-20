@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-aau&+7w7q$cu8krny%j4p0+pmk(hk!m_3ulpgfivs(-u42les4
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['.render.com', 'localhost', '127.0.0.1']
 
 
 
@@ -116,7 +116,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = 'static/'
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -138,7 +138,9 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'hotelreservationstayease@gmail.com'
 EMAIL_HOST_PASSWORD = 'xnps luak ykyu yhiu'
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
-STATIC_URL = 'static/'
 
-
+STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATICFILES_DIRS = [
+    BASE_DIR / 'static',
+]
