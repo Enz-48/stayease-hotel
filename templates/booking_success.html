@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}StayEase — Reservation Confirmed!{% endblock %}
+
+{% block content %}
+<nav class="navbar">
+    <div class="nav-container">
+        <a class="logo" href="{% url 'hotel:home' %}">
+            <div class="logo-icon"><i class="fas fa-hotel"></i></div>
+            StayEase
+        </a>
+        <div class="nav-actions">
+            <form method="post" action="{% url 'hotel:logout' %}" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-outline">Log out</button>
+            </form>
+        </div>
+    </div>
+</nav>
+
+<div style="display:flex;align-items:center;justify-content:center;min-height:80vh;padding:2rem;">
+    <div style="text-align:center;max-width:500px;background:#fff;padding:3rem;border-radius:16px;box-shadow:0 8px 40px rgba(0,0,0,0.08);">
+        <div style="width:72px;height:72px;background:#dcfce7;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1.5rem;">
+            <i class="fas fa-check" style="font-size:2rem;color:#16a34a;"></i>
+        </div>
+        <h2 style="font-size:1.75rem;font-weight:700;margin-bottom:0.5rem;">Reservation Confirmed!</h2>
+        <p style="color:#64748b;margin-bottom:2rem;">
+            Thank you, {{ guest.first_name }}! Your booking has been received.
+        </p>
+
+        <div style="background:#f8fafc;border-radius:12px;padding:1.5rem;text-align:left;margin-bottom:1.5rem;">
+            <div style="display:flex;justify-content:space-between;padding:0.5rem 0;border-bottom:1px solid #e2e8f0;">
+                <span style="color:#64748b;">Booking ID</span>
+                <strong>#{{ reservation.booking_id }}</strong>
+            </div>
+            <div style="display:flex;justify-content:space-between;padding:0.5rem 0;border-bottom:1px solid #e2e8f0;">
+                <span style="color:#64748b;">Room</span>
+                <strong>Room {{ reservation.room.room_id }} — {{ reservation.room.room_type.type_name|default:"Standard" }}</strong>
+            </div>
+            <div style="display:flex;justify-content:space-between;padding:0.5rem 0;border-bottom:1px solid #e2e8f0;">
+                <span style="color:#64748b;">Check-in</span>
+                <strong>{{ reservation.check_in_date|date:"F j, Y" }}</strong>
+            </div>
+            <div style="display:flex;justify-content:space-between;padding:0.5rem 0;border-bottom:1px solid #e2e8f0;">
+                <span style="color:#64748b;">Check-out</span>
+                <strong>{{ reservation.check_out_date|date:"F j, Y" }}</strong>
+            </div>
+            <div style="display:flex;justify-content:space-between;padding:0.5rem 0;border-bottom:1px solid #e2e8f0;">
+                <span style="color:#64748b;">Duration</span>
+                <strong>{{ reservation.s_duration }} night{{ reservation.s_duration|pluralize }}</strong>
+            </div>
+            {% if payment %}
+            <div style="display:flex;justify-content:space-between;padding:0.5rem 0;border-bottom:1px solid #e2e8f0;">
+                <span style="color:#64748b;">Payment Method</span>
+                <strong>{{ payment.payment_method }}</strong>
+            </div>
+            <div style="display:flex;justify-content:space-between;padding:0.75rem 0;font-size:1.1rem;">
+                <span style="color:#64748b;">Total Amount</span>
+                <strong style="color:#2563eb;">₱{{ payment.total_amount|floatformat:0 }}</strong>
+            </div>
+            {% endif %}
+        </div>
+
+        {% if services %}
+        <p style="font-size:0.875rem;color:#64748b;margin-bottom:1.5rem;">
+            Services added: {% for s in services %}{{ s.service_name }}{% if not forloop.last %}, {% endif %}{% endfor %}
+        </p>
+        {% endif %}
+
+        <a href="{% url 'hotel:home' %}" class="btn btn-blue" style="display:inline-block;text-decoration:none;padding:0.875rem 2rem;">
+            Back to Home
+        </a>
+    </div>
+</div>
+{% endblock %}

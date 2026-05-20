@@ -1,0 +1,498 @@
+<!--
+=======================================================================
+  STAYEASE — GUEST REVIEW POPUP (3-part snippet)
+  
+  HOW TO ADD THIS TO YOUR finalfinal.html:
+  
+  PART 1 → Paste the <style> block inside your existing <style> tag
+            (anywhere before the closing </style>)
+  
+  PART 2 → Paste the modal HTML just before your existing
+            <!-- GLOBAL: TOAST --> comment block
+  
+  PART 3 → Replace your existing handleLogin() function AND
+            add the new review helper functions inside your <script> tag
+=======================================================================
+-->
+
+
+<!-- ================================================================
+     PART 1: CSS — paste inside your existing <style> tag
+     ================================================================ -->
+<style>
+/* ==================== REVIEW POPUP MODAL ==================== */
+#reviewModal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.65);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    animation: reviewOverlayIn 0.3s ease;
+}
+#reviewModal.show {
+    display: flex;
+}
+@keyframes reviewOverlayIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+.review-modal-card {
+    background: #ffffff;
+    border-radius: 20px;
+    width: 100%;
+    max-width: 480px;
+    box-shadow: 0 30px 60px -10px rgba(0,0,0,0.35), 0 0 0 1px rgba(255,255,255,0.15);
+    overflow: hidden;
+    animation: reviewCardIn 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+    position: relative;
+}
+@keyframes reviewCardIn {
+    from { opacity: 0; transform: translateY(40px) scale(0.95); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Header banner */
+.review-modal-header {
+    background: linear-gradient(135deg, #1e3a5f 0%, #2563eb 60%, #3b82f6 100%);
+    padding: 2rem 2rem 1.5rem;
+    text-align: center;
+    position: relative;
+}
+.review-modal-header::after {
+    content: '';
+    position: absolute;
+    bottom: -1px; left: 0; right: 0;
+    height: 24px;
+    background: #ffffff;
+    border-radius: 24px 24px 0 0;
+}
+.review-hotel-icon {
+    width: 64px; height: 64px;
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+    border-radius: 16px;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 1rem;
+    box-shadow: 0 8px 24px rgba(245,158,11,0.4);
+    font-size: 1.75rem;
+    color: white;
+}
+.review-modal-header h2 {
+    color: #ffffff;
+    font-size: 1.35rem;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+}
+.review-modal-header p {
+    color: rgba(255,255,255,0.8);
+    font-size: 0.875rem;
+}
+
+/* Body */
+.review-modal-body {
+    padding: 1.5rem 2rem 2rem;
+}
+
+/* Stay summary chip */
+.review-stay-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: #eff6ff;
+    color: #2563eb;
+    border: 1px solid #bfdbfe;
+    border-radius: 50px;
+    padding: 0.35rem 0.9rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+}
+.review-stay-chip i { font-size: 0.75rem; }
+
+/* Star rating */
+.review-stars-label {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #4b5563;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 0.6rem;
+}
+.review-stars {
+    display: flex;
+    gap: 0.4rem;
+    margin-bottom: 0.5rem;
+}
+.review-stars i {
+    font-size: 2rem;
+    color: #d1d5db;
+    cursor: pointer;
+    transition: color 0.15s, transform 0.15s;
+    -webkit-text-stroke: 1px #d1d5db;
+}
+.review-stars i.hovered,
+.review-stars i.selected {
+    color: #f59e0b;
+    -webkit-text-stroke: 1px #d97706;
+    transform: scale(1.15);
+}
+.review-rating-text {
+    font-size: 0.8rem;
+    color: #6b7280;
+    min-height: 1.2em;
+    margin-bottom: 1.25rem;
+    font-style: italic;
+}
+
+/* Textarea */
+.review-textarea-label {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #4b5563;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 0.5rem;
+    display: block;
+}
+.review-textarea {
+    width: 100%;
+    border: 1.5px solid #e5e7eb;
+    border-radius: 10px;
+    padding: 0.875rem 1rem;
+    font-size: 0.92rem;
+    font-family: inherit;
+    color: #1f2937;
+    resize: vertical;
+    min-height: 100px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    line-height: 1.55;
+}
+.review-textarea:focus {
+    outline: none;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 4px rgba(37,99,235,0.1);
+}
+.review-textarea::placeholder { color: #9ca3af; }
+
+/* Char counter */
+.review-char-count {
+    text-align: right;
+    font-size: 0.75rem;
+    color: #9ca3af;
+    margin-top: 0.3rem;
+    margin-bottom: 1.25rem;
+}
+
+/* Action buttons */
+.review-actions {
+    display: flex;
+    gap: 0.75rem;
+}
+.review-btn-skip {
+    flex: 1;
+    padding: 0.75rem 1.25rem;
+    border-radius: 50px;
+    border: 1.5px solid #e5e7eb;
+    background: transparent;
+    color: #4b5563;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.review-btn-skip:hover {
+    background: #f3f4f6;
+    border-color: #d1d5db;
+}
+.review-btn-submit {
+    flex: 2;
+    padding: 0.75rem 1.5rem;
+    border-radius: 50px;
+    border: none;
+    background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+    color: white;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 4px 14px rgba(37,99,235,0.3);
+    display: flex; align-items: center; justify-content: center; gap: 0.4rem;
+}
+.review-btn-submit:hover {
+    background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
+    box-shadow: 0 6px 20px rgba(37,99,235,0.4);
+    transform: translateY(-1px);
+}
+.review-btn-submit:disabled {
+    opacity: 0.5; cursor: not-allowed; transform: none;
+}
+
+/* Close X */
+.review-close-x {
+    position: absolute;
+    top: 0.85rem; right: 1rem;
+    background: rgba(255,255,255,0.15);
+    border: none;
+    color: white;
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1rem;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.2s;
+    z-index: 2;
+}
+.review-close-x:hover { background: rgba(255,255,255,0.3); }
+
+/* Thank-you state */
+.review-thankyou {
+    display: none;
+    text-align: center;
+    padding: 2rem 2rem 2.5rem;
+}
+.review-thankyou .ty-icon {
+    width: 72px; height: 72px;
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 1.25rem;
+    font-size: 2rem; color: white;
+    box-shadow: 0 8px 24px rgba(16,185,129,0.35);
+    animation: popIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+@keyframes popIn {
+    from { transform: scale(0); opacity: 0; }
+    to   { transform: scale(1); opacity: 1; }
+}
+.review-thankyou h3 { font-size: 1.35rem; color: #1f2937; margin-bottom: 0.5rem; }
+.review-thankyou p  { font-size: 0.9rem; color: #6b7280; margin-bottom: 1.5rem; line-height: 1.6; }
+.review-thankyou button {
+    padding: 0.75rem 2.5rem;
+    border-radius: 50px;
+    border: none;
+    background: #2563eb;
+    color: white;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.review-thankyou button:hover { background: #1d4ed8; }
+</style>
+
+
+<!-- ================================================================
+     PART 2: HTML MODAL — paste just before your GLOBAL: TOAST div
+     ================================================================ -->
+
+<!-- ==================== GLOBAL: REVIEW POPUP ==================== -->
+<div id="reviewModal" role="dialog" aria-modal="true" aria-labelledby="reviewModalTitle">
+    <div class="review-modal-card">
+
+        <!-- Close X -->
+        <button class="review-close-x" onclick="closeReviewModal()" aria-label="Close">
+            <i class="fas fa-times"></i>
+        </button>
+
+        <!-- Header -->
+        <div class="review-modal-header">
+            <div class="review-hotel-icon">
+                <i class="fas fa-hotel"></i>
+            </div>
+            <h2 id="reviewModalTitle">How was your stay?</h2>
+            <p>We'd love to hear about your experience</p>
+        </div>
+
+        <!-- Form state -->
+        <div class="review-modal-body" id="reviewFormState">
+
+            <!-- Stay chip -->
+            <div style="text-align:center; margin-bottom:1.5rem;">
+                <span class="review-stay-chip">
+                    <i class="fas fa-moon"></i>
+                    <span id="reviewStayInfo">Room 101 · Dec 9–12, 2026</span>
+                </span>
+            </div>
+
+            <!-- Stars -->
+            <div class="review-stars-label">Your Rating</div>
+            <div class="review-stars" id="reviewStars" role="group" aria-label="Star rating">
+                <i class="far fa-star" data-val="1" onclick="setRating(1)" onmouseenter="hoverRating(1)" onmouseleave="resetHover()"></i>
+                <i class="far fa-star" data-val="2" onclick="setRating(2)" onmouseenter="hoverRating(2)" onmouseleave="resetHover()"></i>
+                <i class="far fa-star" data-val="3" onclick="setRating(3)" onmouseenter="hoverRating(3)" onmouseleave="resetHover()"></i>
+                <i class="far fa-star" data-val="4" onclick="setRating(4)" onmouseenter="hoverRating(4)" onmouseleave="resetHover()"></i>
+                <i class="far fa-star" data-val="5" onclick="setRating(5)" onmouseenter="hoverRating(5)" onmouseleave="resetHover()"></i>
+            </div>
+            <div class="review-rating-text" id="reviewRatingText">Click a star to rate your stay</div>
+
+            <!-- Comment -->
+            <label class="review-textarea-label" for="reviewComment">Your Review <span style="color:#9ca3af; font-weight:400; text-transform:none;">(optional)</span></label>
+            <textarea
+                id="reviewComment"
+                class="review-textarea"
+                placeholder="Tell us what you loved, what could be better, or anything that made your stay memorable…"
+                maxlength="500"
+                oninput="updateCharCount()"
+            ></textarea>
+            <div class="review-char-count"><span id="reviewCharCount">0</span> / 500</div>
+
+            <!-- Actions -->
+            <div class="review-actions">
+                <button class="review-btn-skip" onclick="closeReviewModal()">Maybe Later</button>
+                <button class="review-btn-submit" id="reviewSubmitBtn" onclick="submitReview()" disabled>
+                    <i class="fas fa-paper-plane"></i> Submit Review
+                </button>
+            </div>
+        </div>
+
+        <!-- Thank-you state (hidden until submit) -->
+        <div class="review-thankyou" id="reviewThankyouState">
+            <div class="ty-icon"><i class="fas fa-check"></i></div>
+            <h3>Thank You!</h3>
+            <p>Your review has been submitted.<br>We appreciate you taking the time to share your experience with us.</p>
+            <button onclick="closeReviewModal()">Continue to Home</button>
+        </div>
+
+    </div>
+</div>
+
+
+<!-- ================================================================
+     PART 3: JAVASCRIPT — paste inside your existing <script> tag
+
+     a) REPLACE your existing handleLogin() with this version
+     b) ADD the new review helper functions below it
+     ================================================================ -->
+<script>
+
+/* -------------------------------------------------------------------
+   a) REPLACE your existing handleLogin() with this:
+      (it shows the review popup ~1 second after login, simulating
+       a returning guest who has a completed stay)
+------------------------------------------------------------------- */
+function handleLogin(e) {
+    e.preventDefault();
+    const usernameInput = document.getElementById('loginUsername');
+    if (!usernameInput || !usernameInput.value.trim()) return;
+
+    isAuthenticated = true;
+    navigateTo('home');
+
+    // Simulate: returning guest has a completed stay → show review popup
+    // In a real app you would check the backend for a pending review here.
+    const hasCompletedStay = true; // set to false to disable the popup
+    if (hasCompletedStay) {
+        setTimeout(() => showReviewModal({
+            room:     'Room 101',
+            roomType: 'Deluxe Suite',
+            checkin:  'Dec 9, 2026',
+            checkout: 'Dec 12, 2026'
+        }), 900);
+    }
+}
+
+/* -------------------------------------------------------------------
+   b) ADD these new review helper functions (paste after handleLogin)
+------------------------------------------------------------------- */
+let _reviewRating = 0;
+const _ratingLabels = ['', 'Poor', 'Fair', 'Good', 'Very Good', 'Excellent'];
+
+function showReviewModal(stayData) {
+    // Reset state
+    _reviewRating = 0;
+    document.getElementById('reviewComment').value = '';
+    document.getElementById('reviewCharCount').textContent = '0';
+    document.getElementById('reviewSubmitBtn').disabled = true;
+    document.getElementById('reviewRatingText').textContent = 'Click a star to rate your stay';
+    document.querySelectorAll('#reviewStars i').forEach(s => {
+        s.classList.remove('selected', 'hovered');
+        s.className = 'far fa-star';
+    });
+    document.getElementById('reviewFormState').style.display = 'block';
+    document.getElementById('reviewThankyouState').style.display = 'none';
+
+    // Fill stay info
+    if (stayData) {
+        const roomLabel = stayData.room || 'Your Room';
+        const datesLabel = (stayData.checkin && stayData.checkout)
+            ? stayData.checkin + '–' + stayData.checkout
+            : '';
+        document.getElementById('reviewStayInfo').textContent =
+            datesLabel ? roomLabel + ' · ' + datesLabel : roomLabel;
+    }
+
+    document.getElementById('reviewModal').classList.add('show');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeReviewModal() {
+    document.getElementById('reviewModal').classList.remove('show');
+    document.body.style.overflow = '';
+}
+
+function hoverRating(val) {
+    document.querySelectorAll('#reviewStars i').forEach((s, i) => {
+        s.classList.toggle('hovered', i < val);
+        if (i < val) {
+            s.className = 'fas fa-star hovered';
+        } else {
+            s.className = _reviewRating > i ? 'fas fa-star selected' : 'far fa-star';
+        }
+    });
+}
+
+function resetHover() {
+    document.querySelectorAll('#reviewStars i').forEach((s, i) => {
+        s.classList.remove('hovered');
+        if (i < _reviewRating) {
+            s.className = 'fas fa-star selected';
+        } else {
+            s.className = 'far fa-star';
+        }
+    });
+}
+
+function setRating(val) {
+    _reviewRating = val;
+    document.querySelectorAll('#reviewStars i').forEach((s, i) => {
+        if (i < val) {
+            s.className = 'fas fa-star selected';
+        } else {
+            s.className = 'far fa-star';
+        }
+    });
+    document.getElementById('reviewRatingText').textContent = _ratingLabels[val] || '';
+    document.getElementById('reviewSubmitBtn').disabled = false;
+}
+
+function updateCharCount() {
+    const len = document.getElementById('reviewComment').value.length;
+    document.getElementById('reviewCharCount').textContent = len;
+}
+
+function submitReview() {
+    if (!_reviewRating) return;
+    const comment = document.getElementById('reviewComment').value.trim();
+
+    // ── In a real app, POST { rating: _reviewRating, comment } to your API here ──
+    console.log('Review submitted:', { rating: _reviewRating, comment });
+
+    // Show thank-you state
+    document.getElementById('reviewFormState').style.display = 'none';
+    document.getElementById('reviewThankyouState').style.display = 'block';
+
+    // Auto-close after 3 seconds
+    setTimeout(closeReviewModal, 3000);
+}
+
+// Close on backdrop click
+document.getElementById('reviewModal').addEventListener('click', function(e) {
+    if (e.target === this) closeReviewModal();
+});
+
+</script>

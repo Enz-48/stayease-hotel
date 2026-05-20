@@ -1,0 +1,58 @@
+
+
+
+
+<nav class="navbar">
+    <div class="nav-container">
+        <a class="logo" href="/">
+            <div class="logo-icon"><i class="fas fa-hotel"></i></div>
+            StayEase
+        </a>
+        <ul class="nav-links">
+            <li><a href="/" class="active nav-home">Home</a></li>
+            <li><a href="/">Rooms</a></li>
+            <li><a href="/">Reservations</a></li>
+            <li><a href="/">Popular</a></li>
+        </ul>
+        <div class="nav-actions">
+            <form method="post" action="/" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-outline">Log out</button>
+            </form>
+        </div>
+    </div>
+</nav>
+
+<div class="home-page">
+    <div class="hero-content">
+        <h1 class="hero-title">Find Your Perfect Room</h1>
+        <p class="hero-subtitle">Reserve your ideal room easily online</p>
+
+        <form class="search-box" method="get" action="/">
+            <div class="search-input">
+                <label>Check-in</label>
+                <input type="date" name="checkin" id="checkin" required
+                    value="{{ form.checkin.value|default:'' }}">
+            </div>
+            <div class="search-input">
+                <label>Check-out</label>
+                <input type="date" name="checkout" id="checkout" required
+                    value="{{ form.checkout.value|default:'' }}">
+            </div>
+            <div class="guest-input-home">
+                <div class="search-input">
+                    <label>Adults</label>
+                    <input type="number" name="adults" id="homeAdults" value="2" min="1" max="20" placeholder="0">
+                </div>
+                <div class="search-input">
+                    <label>Children</label>
+                    <input type="number" name="children" id="homeChildren" value="0" min="0" max="10" placeholder="0">
+                </div>
+            </div>
+            <button type="submit" class="btn btn-blue" style="align-self: flex-end;">
+                Search Rooms
+            </button>
+        </form>
+    </div>
+</div>
+

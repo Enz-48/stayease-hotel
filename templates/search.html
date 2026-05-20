@@ -1,0 +1,300 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}StayEase — Available Rooms{% endblock %}
+
+{% block content %}
+<nav class="navbar">
+    <div class="nav-container">
+        <a class="logo" href="{% url 'hotel:home' %}">
+            <div class="logo-icon"><i class="fas fa-hotel"></i></div>
+            StayEase
+        </a>
+        <ul class="nav-links">
+            <li><a href="{% url 'hotel:home' %}">Home</a></li>
+            <li><a href="{% url 'hotel:search' %}" class="active">Rooms</a></li>
+            <li><a href="{% url 'hotel:search' %}">Reservations</a></li>
+            <li><a href="{% url 'hotel:search' %}">Popular</a></li>
+        </ul>
+        <div class="nav-actions">
+            <form method="post" action="{% url 'hotel:logout' %}" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-outline">Log out</button>
+            </form>
+        </div>
+    </div>
+</nav>
+
+<div class="search-page-container">
+    <!-- Left Sidebar -->
+    <aside class="search-sidebar">
+        <a class="back-link" href="{% url 'hotel:home' %}">
+            <i class="fas fa-arrow-left"></i> Your search
+        </a>
+
+        <form method="get" action="{% url 'hotel:search' %}">
+            <div class="sidebar-section">
+                <div class="search-field">
+                    <label>Check-in</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-calendar"></i>
+                        <input type="date" name="checkin" value="{{ checkin }}" id="sidebarCheckin">
+                    </div>
+                </div>
+                <div class="search-field">
+                    <label>Check-out</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-calendar"></i>
+                        <input type="date" name="checkout" value="{{ checkout }}" id="sidebarCheckout">
+                    </div>
+                </div>
+                <div class="search-field">
+                    <label>Guests</label>
+                    <div class="guest-inputs">
+                        <div class="guest-input-row">
+                            <span class="guest-label"><i class="fas fa-user"></i> Adults</span>
+                            <input type="number" class="guest-number-input" name="adults" value="{{ adults }}" min="1" max="20">
+                        </div>
+                        <div class="guest-input-row">
+                            <span class="guest-label"><i class="fas fa-child"></i> Children</span>
+                            <input type="number" class="guest-number-input" name="children" value="{{ children }}" min="0" max="10">
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-blue search-btn-sidebar">Search</button>
+            </div>
+
+            <!-- Status Filter -->
+            <div class="filter-section">
+                <div class="filter-header">
+                    <span class="filter-title">Room Status</span>
+                    <a class="reset-link" href="{% url 'hotel:search' %}?checkin={{ checkin }}&checkout={{ checkout }}&adults={{ adults }}&children={{ children }}">Reset</a>
+                </div>
+                <div class="filter-list">
+                    <label class="filter-item">
+                        <input type="checkbox" name="status" value="vacant">
+                        <span><i class="fas fa-circle" style="color: var(--status-vacant); font-size: 0.6rem; margin-right: 0.5rem;"></i>Vacant</span>
+                    </label>
+                    <label class="filter-item">
+                        <input type="checkbox" name="status" value="occupied">
+                        <span><i class="fas fa-circle" style="color: var(--status-occupied); font-size: 0.6rem; margin-right: 0.5rem;"></i>Occupied</span>
+                    </label>
+                    <label class="filter-item">
+                        <input type="checkbox" name="status" value="pending">
+                        <span><i class="fas fa-circle" style="color: var(--status-pending); font-size: 0.6rem; margin-right: 0.5rem;"></i>Pending</span>
+                    </label>
+                    <label class="filter-item">
+                        <input type="checkbox" name="status" value="received">
+                        <span><i class="fas fa-circle" style="color: var(--status-received); font-size: 0.6rem; margin-right: 0.5rem;"></i>Received</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Price Filter -->
+            <div class="filter-section">
+                <div class="filter-title">Price per night</div>
+                <div class="filter-list">
+                    <label class="filter-item">
+                        <input type="radio" name="price_range" value="under_2000"> <span>Under ₱2,000</span>
+                    </label>
+                    <label class="filter-item">
+                        <input type="radio" name="price_range" value="2000_5000"> <span>₱2,000 - ₱5,000</span>
+                    </label>
+                    <label class="filter-item">
+                        <input type="radio" name="price_range" value="5000_10000"> <span>₱5,000 - ₱10,000</span>
+                    </label>
+                    <label class="filter-item">
+                        <input type="radio" name="price_range" value="over_10000"> <span>Over ₱10,000</span>
+                    </label>
+                </div>
+            </div>
+        </form>
+    </aside>
+
+    <!-- Main Results -->
+    <main class="search-main">
+        <div class="search-header">
+            <div class="search-meta">
+                {{ vacant_count }} room{{ vacant_count|pluralize }} available for:
+                {{ checkin_date|date:"M j" }}–{{ checkout_date|date:"M j" }},
+                {{ adults }} adult{{ adults|pluralize }}, {{ children }} child{{ children|pluralize:"ren" }}
+            </div>
+            <div class="search-title-row">
+                <h1 class="search-title">Available Rooms</h1>
+                <form method="get" action="{% url 'hotel:search' %}" style="display:inline;">
+                    <input type="hidden" name="checkin" value="{{ checkin }}">
+                    <input type="hidden" name="checkout" value="{{ checkout }}">
+                    <input type="hidden" name="adults" value="{{ adults }}">
+                    <input type="hidden" name="children" value="{{ children }}">
+                    <select class="sort-dropdown" name="sort" onchange="this.form.submit()">
+                        <option value="recommended">Sort by: Recommended</option>
+                        <option value="price_asc">Price: Low to High</option>
+                        <option value="price_desc">Price: High to Low</option>
+                        <option value="available_first">Status: Available First</option>
+                    </select>
+                </form>
+            </div>
+        </div>
+
+        <!-- Status Legend -->
+        <div class="status-legend">
+            <div class="legend-item"><div class="status-dot vacant"></div><span>Vacant (Available)</span></div>
+            <div class="legend-item"><div class="status-dot occupied"></div><span>Occupied</span></div>
+            <div class="legend-item"><div class="status-dot pending"></div><span>Pending</span></div>
+            <div class="legend-item"><div class="status-dot received"></div><span>Received</span></div>
+        </div>
+
+        <!-- Room List from DB -->
+        <div class="room-list">
+            {% for item in room_data %}
+            {% with room=item.room status=item.status %}
+
+            <div class="room-card {% if status != 'vacant' %}occupied-card{% endif %}"
+{% if status == 'vacant' %}
+onclick="window.location.href='{% url 'booking' room.pk %}?checkin={{ checkin }}&checkout={{ checkout }}'"
+style="cursor:pointer;"
+{% endif %}>
+
+    <div class="room-header">
+
+        <div>
+
+            <div class="room-number">
+                Room {{ room.room_number }}
+            </div>
+
+            <h3 class="room-name">
+                {{ room.room_type.type_name|default:"Standard Room" }}
+            </h3>
+
+            <div class="room-features">
+
+                <span class="room-feature">
+                    <i class="fas fa-expand"></i>
+                    Room {{ room.room_number }}
+                </span>
+
+                <span class="room-feature">
+                    <i class="fas fa-door-open"></i>
+                    Available:
+                    {{ room.room_type.available_rooms }}
+                </span>
+
+            </div>
+
+        </div>
+
+        <div class="room-status-badge {{ status }}">
+
+            {% if status == 'vacant' %}
+                <i class="fas fa-check-circle"></i> Vacant
+
+            {% elif status == 'occupied' %}
+                <i class="fas fa-times-circle"></i> Occupied
+
+            {% elif status == 'pending' %}
+                <i class="fas fa-clock"></i> Pending
+
+            {% elif status == 'received' %}
+                <i class="fas fa-bell"></i> Received
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+    <div class="room-info">
+
+        <div class="room-type-name">
+            {{ room.room_type.type_name|default:"Standard" }}
+        </div>
+
+        <div class="room-amenities">
+            {{ room.amenities|default:"Standard amenities included" }}
+        </div>
+
+        <div style="margin-top:10px; font-weight:600; color:#2563eb;">
+
+            <i class="fas fa-bed"></i>
+
+            Available Rooms:
+            {{ room.room_type.available_rooms }}
+
+        </div>
+
+    </div>
+
+</div>
+
+                <div class="room-actions">
+                    <div class="price-section">
+                    <div class="price"
+                        {% if status != 'vacant' %}
+                        style="color: var(--text-light);"
+                        {% endif %}>                            ₱{{ room.price|floatformat:0 }}
+                        </div>
+                        <div class="price-sub">per night</div>
+                        {% if status == 'vacant' %}
+                        <div class="status-note">Available for your dates</div>
+                        {% elif status == 'pending' %}
+                        <div class="status-note" style="color: var(--status-pending);">Awaiting confirmation</div>
+                        {% elif status == 'received' %}
+                        <div class="status-note" style="color: var(--status-received);">Reserved for arriving guest</div>
+                        {% else %}
+                        <div class="status-note" style="color: var(--status-occupied);">Currently occupied</div>
+                        {% endif %}
+                    </div>
+
+                    <div style="display:flex; flex-direction:column; gap:10px; width:100%;">
+
+    {% if status == 'vacant' %}
+
+    <a href="{% url 'hotel:booking' room.pk %}?checkin={{ checkin }}&checkout={{ checkout }}"
+        class="btn btn-blue">
+        Reserve Now
+    </a>
+
+    <a href="{% url 'hotel:floorplan' room.room_type.id %}?checkin={{ checkin }}&checkout={{ checkout }}"
+        class="btn btn-outline"
+        style="text-align:center;">
+        <i class="fas fa-map"></i>
+        View Floor Plan
+    </a>
+
+    {% else %}
+
+    <button class="btn btn-blue" disabled>
+        {% if status == 'pending' %}
+            Pending
+        {% elif status == 'received' %}
+            Reserved
+        {% else %}
+            Occupied
+        {% endif %}
+    </button>
+
+    <a href="{% url 'hotel:floorplan' room.room_type.id %}?checkin={{ checkin }}&checkout={{ checkout }}"
+        class="btn btn-outline"
+        style="text-align:center;">
+        <i class="fas fa-map"></i>
+        View Floor Plan
+    </a>
+
+    {% endif %}
+
+</div>
+                </div>
+            </div>
+
+            {% endwith %}
+            {% empty %}
+            <div style="text-align:center; padding: 3rem; color: var(--text-medium);">
+                <i class="fas fa-bed" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+                <h3>No rooms found</h3>
+                <p>Try adjusting your dates or filters.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </main>
+</div>
+{% endblock %}
