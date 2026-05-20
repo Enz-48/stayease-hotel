@@ -1,12 +1,22 @@
 from django.shortcuts import render, redirect, get_object_or_404
+<<<<<<< HEAD
 from django.core.mail import send_mail, EmailMultiAlternatives
 from django.contrib import messages
 from django.conf import settings
 from django.template.loader import render_to_string
+=======
+from django.core.mail import send_mail
+from django.contrib import messages
+from django.conf import settings
+>>>>>>> ba6aca4359c23d52b4c13df9fef06393eb0b685b
 from .models import Register, Room, Reservation, Rating, Payment
 import random
 from datetime import date, datetime, timedelta
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> ba6aca4359c23d52b4c13df9fef06393eb0b685b
 def home(request):
     message = ""
     message_type = ""
@@ -75,9 +85,13 @@ def home(request):
 
                     return render(request, 'finalhtml.html', {
                         'message': message,
+<<<<<<< HEAD
                         'message_type': message_type,
                         'rooms': Room.objects.all(),
                         'latest_booking_id': (Reservation.objects.order_by('-booking_id').first().booking_id if Reservation.objects.order_by('-booking_id').first() else 0),
+=======
+                        'message_type': message_type
+>>>>>>> ba6aca4359c23d52b4c13df9fef06393eb0b685b
                     })
                 else:
                     request.session['login_attempts'] = 0
@@ -112,6 +126,10 @@ def home(request):
                 request.session['login_attempts'] = 0
                 request.session.pop('lock_until', None)
                 request.session['user_id'] = user.id
+<<<<<<< HEAD
+=======
+
+>>>>>>> ba6aca4359c23d52b4c13df9fef06393eb0b685b
                 return redirect('/#homePage')
 
             else:
@@ -127,6 +145,7 @@ def home(request):
 
                 message_type = "error"
 
+<<<<<<< HEAD
     rooms = Room.objects.all()
 
     return render(request, 'finalhtml.html', {
@@ -134,6 +153,11 @@ def home(request):
         'message_type': message_type,
         'rooms': rooms,
         'latest_booking_id': (Reservation.objects.order_by('-booking_id').first().booking_id if Reservation.objects.order_by('-booking_id').first() else 0),
+=======
+    return render(request, 'finalhtml.html', {
+        'message': message,
+        'message_type': message_type
+>>>>>>> ba6aca4359c23d52b4c13df9fef06393eb0b685b
     })
 
 
@@ -164,11 +188,17 @@ def verify_otp(request):
             messages.success(request, "Account created successfully. You can now log in.")
             return redirect('/#loginPage')
 
+<<<<<<< HEAD
         messages.error(request, "Invalid OTP. Please try again.")
+=======
+        else:
+            messages.error(request, "Invalid OTP. Please try again.")
+>>>>>>> ba6aca4359c23d52b4c13df9fef06393eb0b685b
 
     return render(request, 'verify_otp.html')
 
 
+<<<<<<< HEAD
 def forgot_password(request):
     if request.method == 'POST':
         email = request.POST.get('email')
@@ -259,6 +289,10 @@ def booking(request, room_id):
         messages.error(request, "Selected room does not exist.")
         return redirect('/#homePage')
 
+=======
+def booking(request, room_id):
+    room = get_object_or_404(Room, pk=room_id)
+>>>>>>> ba6aca4359c23d52b4c13df9fef06393eb0b685b
     room_type = room.room_type
 
     if request.method == 'POST':
@@ -271,11 +305,14 @@ def booking(request, room_id):
             room.room_status = "pending"
             room.save()
 
+<<<<<<< HEAD
             Reservation.objects.filter(
                 room=room,
                 status="Pending"
             ).update(status="Pending")
 
+=======
+>>>>>>> ba6aca4359c23d52b4c13df9fef06393eb0b685b
             guest_email = request.POST.get('email')
             guest_name = request.POST.get('fullname') or request.POST.get('name') or "Guest"
             services = request.POST.get('services') or "No additional services selected"
@@ -319,21 +356,32 @@ def booking(request, room_id):
                 children=children,
                 status="Pending"
             )
+<<<<<<< HEAD
 
+=======
+>>>>>>> ba6aca4359c23d52b4c13df9fef06393eb0b685b
             total_price = request.POST.get('total_price') or room.price
             payment_method = request.POST.get('payment_method') or "Not specified"
 
             total_price = str(total_price).replace("₱", "").replace(",", "").strip()
 
             Payment.objects.create(
+<<<<<<< HEAD
                 reservation=reservation,
                 payment_method=payment_method,
                 amount_paid=total_price,
                 payment_status="Paid"
+=======
+            reservation=reservation,
+            payment_method=payment_method,
+            amount_paid=total_price,
+            payment_status="Paid"   
+>>>>>>> ba6aca4359c23d52b4c13df9fef06393eb0b685b
             )
 
             print("PAYMENT SAVED")
 
+<<<<<<< HEAD
             if guest_email:
                 try:
                     html_content = render_to_string('stayease_booking_email.html', {
@@ -359,6 +407,58 @@ def booking(request, room_id):
                     email.attach_alternative(html_content, "text/html")
                     email.send()
 
+=======
+            print("RESERVATION SAVED:", reservation)
+            print("BOOKING EMAIL TO:", guest_email)
+
+            if guest_email:
+                try:
+                    send_mail(
+                        'Booking Confirmed - StayEase',
+                        f'''
+Hello {guest_name},
+
+Your booking has been confirmed.
+
+==============================
+         BOOKING DETAILS
+==============================
+
+Booking ID:
+{reservation.booking_id}
+
+Room Booked:
+{room.room_type}
+
+Room Number:
+{room.room_number}
+
+Check-in:
+{check_in}
+
+Check-out:
+{check_out}
+
+Amount Paid:
+₱{total_price}
+
+Payment Method:
+{payment_method}
+
+Services:
+{services}
+
+Booking Status:
+Pending Confirmation
+
+Thank you for choosing StayEase.
+''',
+                        settings.DEFAULT_FROM_EMAIL,
+                        [guest_email],
+                        fail_silently=False,
+                    )
+
+>>>>>>> ba6aca4359c23d52b4c13df9fef06393eb0b685b
                     print("BOOKING EMAIL SENT SUCCESSFULLY")
                     messages.success(request, "Booking successful! Reservation saved and confirmation email sent.")
 
@@ -367,12 +467,23 @@ def booking(request, room_id):
                     messages.success(request, "Booking successful and reservation saved, but email was not sent.")
 
             else:
+<<<<<<< HEAD
                 messages.success(request, "Booking successful.")
 
             return redirect(f'/?booking_id={reservation.booking_id}#homePage')
 
         messages.error(request, "No rooms available for this room type.")
         return redirect('/#homePage')
+=======
+                print("NO EMAIL RECEIVED FROM FORM")
+                messages.success(request, "Booking successful and reservation saved, but no email was provided.")
+
+            return redirect('/#homePage')
+
+        else:
+            messages.error(request, "No rooms available for this room type.")
+            return redirect('/#homePage')
+>>>>>>> ba6aca4359c23d52b4c13df9fef06393eb0b685b
 
     return render(request, 'booking.html', {
         'room': room
@@ -384,11 +495,15 @@ def homepage(request):
 
 def submit_review(request, booking_id):
     if request.method == 'POST':
+<<<<<<< HEAD
         reservation = Reservation.objects.filter(booking_id=booking_id).first()
 
         if not reservation:
             messages.error(request, "Reservation not found. Please refresh the page and try again.")
             return redirect('/#reservationsPage')
+=======
+        reservation = get_object_or_404(Reservation, booking_id=booking_id)
+>>>>>>> ba6aca4359c23d52b4c13df9fef06393eb0b685b
 
         rating_value = request.POST.get('rating')
         comment = request.POST.get('comment')
@@ -408,7 +523,10 @@ def submit_review(request, booking_id):
 
     return redirect('/#homePage')
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> ba6aca4359c23d52b4c13df9fef06393eb0b685b
 def my_reservations(request):
     user_id = request.session.get('user_id')
 
@@ -420,9 +538,15 @@ def my_reservations(request):
     today = date.today()
 
     upcoming_reservations = Reservation.objects.filter(
+<<<<<<< HEAD
         guest=guest,
         check_out__gt=today
     ).exclude(status="Cancelled")
+=======
+    guest=guest,
+    check_out__gt=today
+).exclude(status="Cancelled")
+>>>>>>> ba6aca4359c23d52b4c13df9fef06393eb0b685b
 
     past_reservations = Reservation.objects.filter(
         guest=guest,
@@ -434,6 +558,7 @@ def my_reservations(request):
         status="Cancelled"
     ).order_by('-booking_id')
 
+<<<<<<< HEAD
     return render(request, 'finalhtml.html', {
         'upcoming_reservations': upcoming_reservations,
         'past_reservations': past_reservations,
@@ -453,3 +578,16 @@ def cancel_reservation(request, booking_id):
 
     messages.success(request, "Reservation cancelled successfully.")
     return redirect('/#reservationsPage')
+=======
+    return render(request, 'finalhtml1.html', {
+        'upcoming_reservations': upcoming_reservations,
+        'past_reservations': past_reservations,
+        'cancelled_reservations': cancelled_reservations,
+    })
+
+def popular(request):
+    return render(request, 'finalhtml.html'), {
+        'is_logged_in': request.session.get('user_id') is not None,
+        'open_page': 'popularPage'
+    }
+>>>>>>> ba6aca4359c23d52b4c13df9fef06393eb0b685b

@@ -1,6 +1,4 @@
 <!DOCTYPE html>
-<<<<<<< HEAD
-=======
 <!--
 COMBINED FINAL FILE
 - Based on the version with full Reservations/My Reservations UI.
@@ -9,7 +7,6 @@ COMBINED FINAL FILE
 - Proceed to Payment now submits to Django so backend database/email features can run.
 -->
 
->>>>>>> ba6aca4359c23d52b4c13df9fef06393eb0b685b
 <html lang="en">
 
 <head>
@@ -878,39 +875,6 @@ COMBINED FINAL FILE
             min-width: 140px;
         }
 
-<<<<<<< HEAD
-        .room-select-row {
-            margin-top: 0.9rem;
-            max-width: 260px;
-        }
-
-        .room-select-row label {
-            display: block;
-            font-size: 0.8rem;
-            font-weight: 600;
-            color: var(--text-medium);
-            margin-bottom: 0.35rem;
-        }
-
-        .room-number-select {
-            width: 100%;
-            padding: 0.65rem 0.75rem;
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            background: var(--white);
-            color: var(--text-dark);
-            font-size: 0.9rem;
-            cursor: pointer;
-        }
-
-        .room-number-select:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
-        }
-
-=======
->>>>>>> ba6aca4359c23d52b4c13df9fef06393eb0b685b
         .price-section {
             text-align: right;
         }
@@ -3905,7 +3869,7 @@ body {
 </style>
 </head>
 
-<body data-authenticated="{% if user.is_authenticated %}true{% else %}false{% endif %}">
+<body data-authenticated="{% if request.session.user_id %}true{% else %}false{% endif %}" data-open-page="{{ open_page|default:'' }}">
 
     <!-- ==================== PAGE 1: LOGIN ==================== -->
     <div id="loginPage" class="page active">
@@ -3930,11 +3894,7 @@ body {
                     </div>
                 {% endif %}
 
-<<<<<<< HEAD
-                    <form class="auth-form" method="POST" id="loginForm" onsubmit="return true;">                   
-=======
                     <form class="auth-form" method="POST" id="loginForm">                    
->>>>>>> ba6aca4359c23d52b4c13df9fef06393eb0b685b
                         {% csrf_token %}
 
                     <input type="hidden" name="form_type" value="login">
@@ -3944,12 +3904,7 @@ body {
                     </div>
 
                     <div class="form-group">
-<<<<<<< HEAD
-                       <input type="password" name="login_password" id="loginPassword" placeholder="Password">
-
-=======
                         <input type="password" name="login_password" id="loginPassword" placeholder="Password" required>
->>>>>>> ba6aca4359c23d52b4c13df9fef06393eb0b685b
                     </div>
 
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
@@ -3957,13 +3912,7 @@ body {
                             <input type="checkbox" style="width: 16px; height: 16px;">
                             Remember me
                         </label>
-<<<<<<< HEAD
-                     <a href="/forgot-password/" style="font-size: 0.875rem; color: var(--primary); text-decoration: none;">
-                        Forgot Password?
-                    </a>
-=======
                         <a href="#" style="font-size: 0.875rem; color: var(--primary); text-decoration: none;">Forgot password?</a>
->>>>>>> ba6aca4359c23d52b4c13df9fef06393eb0b685b
                     </div>
 
                     <button type="submit" class="submit-btn">Sign In</button>
@@ -4214,35 +4163,6 @@ body {
                     <button class="btn btn-blue search-btn-sidebar" onclick="updateSearch()">Search</button>
                 </div>
 
-<<<<<<< HEAD
-
-                <div class="filter-section" id="roomStatusFilterSection">
-                    <div class="filter-header">
-                        <div class="filter-title">Room Status</div>
-                        <a class="reset-link" onclick="resetRoomStatusFilters()">Reset</a>
-                    </div>
-                    <div class="filter-list">
-                        <label class="filter-item">
-                            <input type="checkbox" id="filterVacant" onchange="filterRooms()">
-                            <span><span class="status-dot vacant" style="display:inline-block; margin-right:8px;"></span>Vacant</span>
-                        </label>
-                        <label class="filter-item">
-                            <input type="checkbox" id="filterOccupied" onchange="filterRooms()">
-                            <span><span class="status-dot occupied" style="display:inline-block; margin-right:8px;"></span>Occupied</span>
-                        </label>
-                        <label class="filter-item">
-                            <input type="checkbox" id="filterPending" onchange="filterRooms()">
-                            <span><span class="status-dot pending" style="display:inline-block; margin-right:8px;"></span>Pending</span>
-                        </label>
-                        <label class="filter-item">
-                            <input type="checkbox" id="filterReceived" onchange="filterRooms()">
-                            <span><span class="status-dot received" style="display:inline-block; margin-right:8px;"></span>Received</span>
-                        </label>
-                    </div>
-                </div>
-
-=======
->>>>>>> ba6aca4359c23d52b4c13df9fef06393eb0b685b
                 <div class="filter-section">
                     <div class="filter-title">Price per night</div>
                     <div class="filter-list">
@@ -4262,11 +4182,7 @@ body {
             <!-- Main Results -->
             <main class="search-main">
                 <div class="search-header">
-<<<<<<< HEAD
-                    <div class="search-meta" id="searchMeta">35 rooms available by room type for selected dates, 2 adults, 0 children
-=======
                     <div class="search-meta" id="searchMeta">12 rooms available for selected dates, 2 adults, 0 children
->>>>>>> ba6aca4359c23d52b4c13df9fef06393eb0b685b
                     </div>
                     <div class="search-title-row">
                         <h1 class="search-title">Available Rooms</h1>
@@ -4300,66 +4216,6 @@ body {
                 </div>
 
                 <div class="room-list" id="roomList">
-<<<<<<< HEAD
-                    <!-- GROUPED ROOM CARDS: one card per room type; exact room number is chosen from dropdown. -->
-                    <div class="room-card" data-status="vacant" data-price="5500" data-capacity="2" data-room-type="Standard" data-room-name="Standard" data-room-price="5500" data-room-image="https://images.unsplash.com/photo-1566665797739-1674de7a421a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80">
-                        <div class="status-strip vacant"></div>
-                        <img src="https://images.unsplash.com/photo-1566665797739-1674de7a421a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="room-image" alt="Standard">
-                        <div class="room-content">
-                            <div class="room-header">
-                                <div>
-                                    <h3 class="room-name">Standard</h3>
-                                    <div class="room-number">10 available rooms</div>
-                                    <div class="room-features">
-                                        <span class="room-feature"><i class="fas fa-bed"></i> Twin Beds</span>
-                                        <span class="room-feature"><i class="fas fa-user"></i> 2 Guests</span>
-                                        <span class="room-feature"><i class="fas fa-expand"></i> 28 m²</span>
-                                    </div>
-                                </div>
-                                <div class="room-status-badge vacant">
-                                    <i class="fas fa-check-circle"></i> Vacant
-                                </div>
-                            </div>
-
-                            <div class="room-info">
-                                <div class="room-type-name">Standard</div>
-                                <div class="room-amenities">City view • Work desk • Free Wi-Fi • Coffee maker</div>
-                                <div class="room-select-row">
-                                    <label>Choose room number</label>
-                                    <select class="room-number-select" onclick="event.stopPropagation()" onchange="event.stopPropagation()">
-                                        <option value="101">Room 101</option>
-                                        <option value="102">Room 102</option>
-                                        <option value="103">Room 103</option>
-                                        <option value="104">Room 104</option>
-                                        <option value="105">Room 105</option>
-                                        <option value="106">Room 106</option>
-                                        <option value="107">Room 107</option>
-                                        <option value="108">Room 108</option>
-                                        <option value="109">Room 109</option>
-                                        <option value="110">Room 110</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="room-actions">
-                            <div class="price-section">
-                                <div class="price">₱5,500</div>
-                                <div class="price-sub">per night</div>
-                                <div class="status-note">Available for your dates</div>
-                            </div>
-                            <button class="btn btn-blue" onclick="reserveGroupedRoom(this, event)">Reserve Now</button>
-                        </div>
-                    </div>
-
-                    <div class="room-card" data-status="vacant" data-price="8500" data-capacity="2" data-room-type="Deluxe" data-room-name="Deluxe" data-room-price="8500" data-room-image="https://images.unsplash.com/photo-1611892440504-42a792e24d32?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80">
-                        <div class="status-strip vacant"></div>
-                        <img src="https://images.unsplash.com/photo-1611892440504-42a792e24d32?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="room-image" alt="Deluxe">
-                        <div class="room-content">
-                            <div class="room-header">
-                                <div>
-                                    <h3 class="room-name">Deluxe</h3>
-                                    <div class="room-number">10 available rooms</div>
-=======
                     <!-- Room 1 - Vacant -->
                     <div class="room-card" data-status="vacant" data-price="8500" data-capacity="2"
                         onclick="selectRoom('101', 'Deluxe Ocean View', 8500, 'https://images.unsplash.com/photo-1611892440504-42a792e24d32?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80', 'vacant', 'Dec 9-12')">
@@ -4370,7 +4226,6 @@ body {
                             <div class="room-header">
                                 <div>
                                     <h3 class="room-name">Deluxe Ocean View</h3>
->>>>>>> ba6aca4359c23d52b4c13df9fef06393eb0b685b
                                     <div class="room-features">
                                         <span class="room-feature"><i class="fas fa-bed"></i> King Bed</span>
                                         <span class="room-feature"><i class="fas fa-user"></i> 2 Guests</span>
@@ -4383,30 +4238,11 @@ body {
                             </div>
 
                             <div class="room-info">
-<<<<<<< HEAD
-                                <div class="room-type-name">Deluxe</div>
-                                <div class="room-amenities">Balcony • Bathtub • Premium Wi-Fi • Mini bar</div>
-                                <div class="room-select-row">
-                                    <label>Choose room number</label>
-                                    <select class="room-number-select" onclick="event.stopPropagation()" onchange="event.stopPropagation()">
-                                        <option value="201">Room 201</option>
-                                        <option value="202">Room 202</option>
-                                        <option value="203">Room 203</option>
-                                        <option value="204">Room 204</option>
-                                        <option value="205">Room 205</option>
-                                        <option value="206">Room 206</option>
-                                        <option value="207">Room 207</option>
-                                        <option value="208">Room 208</option>
-                                        <option value="209">Room 209</option>
-                                        <option value="210">Room 210</option>
-                                    </select>
-=======
                                 <div class="room-type-name">Deluxe Room</div>
                                 <div class="room-amenities">Ocean view • Balcony • Free Wi-Fi • Mini bar</div>
                                 <div class="tags">
                                     <span class="tag tag-hot">Popular</span>
                                     <span class="tag tag-popular">Best Value</span>
->>>>>>> ba6aca4359c23d52b4c13df9fef06393eb0b685b
                                 </div>
                             </div>
                         </div>
@@ -4416,22 +4252,6 @@ body {
                                 <div class="price-sub">per night</div>
                                 <div class="status-note">Available for your dates</div>
                             </div>
-<<<<<<< HEAD
-                            <button class="btn btn-blue" onclick="reserveGroupedRoom(this, event)">Reserve Now</button>
-                        </div>
-                    </div>
-
-                    <div class="room-card" data-status="vacant" data-price="12000" data-capacity="4" data-room-type="Suite" data-room-name="Suite" data-room-price="12000" data-room-image="https://images.unsplash.com/photo-1590490360182-c33d57733427?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80">
-                        <div class="status-strip vacant"></div>
-                        <img src="https://images.unsplash.com/photo-1590490360182-c33d57733427?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="room-image" alt="Suite">
-                        <div class="room-content">
-                            <div class="room-header">
-                                <div>
-                                    <h3 class="room-name">Suite</h3>
-                                    <div class="room-number">5 available rooms</div>
-                                    <div class="room-features">
-                                        <span class="room-feature"><i class="fas fa-bed"></i> King Bed + Sofa Bed</span>
-=======
                             <button class="btn btn-blue">Reserve Now</button>
                         </div>
                     </div>
@@ -4476,7 +4296,6 @@ function filterRooms() {
                                     <h3 class="room-na  me">Premium Garden Suite</h3>
                                     <div class="room-features">
                                         <span class="room-feature"><i class="fas fa-bed"></i> Queen Bed</span>
->>>>>>> ba6aca4359c23d52b4c13df9fef06393eb0b685b
                                         <span class="room-feature"><i class="fas fa-user"></i> 4 Guests</span>
                                         <span class="room-feature"><i class="fas fa-expand"></i> 42 m²</span>
                                     </div>
@@ -4488,21 +4307,7 @@ function filterRooms() {
 
                             <div class="room-info">
                                 <div class="room-type-name">Suite</div>
-<<<<<<< HEAD
-                                <div class="room-amenities">Living area • City view • Smart TV • Complimentary snacks</div>
-                                <div class="room-select-row">
-                                    <label>Choose room number</label>
-                                    <select class="room-number-select" onclick="event.stopPropagation()" onchange="event.stopPropagation()">
-                                        <option value="301">Room 301</option>
-                                        <option value="302">Room 302</option>
-                                        <option value="303">Room 303</option>
-                                        <option value="304">Room 304</option>
-                                        <option value="305">Room 305</option>
-                                    </select>
-                                </div>
-=======
                                 <div class="room-amenities">Garden view • Living area • Kitchenette • Smart TV</div>
->>>>>>> ba6aca4359c23d52b4c13df9fef06393eb0b685b
                             </div>
                         </div>
                         <div class="room-actions">
@@ -4511,22 +4316,6 @@ function filterRooms() {
                                 <div class="price-sub">per night</div>
                                 <div class="status-note">Available for your dates</div>
                             </div>
-<<<<<<< HEAD
-                            <button class="btn btn-blue" onclick="reserveGroupedRoom(this, event)">Reserve Now</button>
-                        </div>
-                    </div>
-
-                    <div class="room-card" data-status="vacant" data-price="18000" data-capacity="4" data-room-type="Executive Suite" data-room-name="Executive Suite" data-room-price="18000" data-room-image="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80">
-                        <div class="status-strip vacant"></div>
-                        <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="room-image" alt="Executive Suite">
-                        <div class="room-content">
-                            <div class="room-header">
-                                <div>
-                                    <h3 class="room-name">Executive Suite</h3>
-                                    <div class="room-number">5 available rooms</div>
-                                    <div class="room-features">
-                                        <span class="room-feature"><i class="fas fa-bed"></i> King Bed + Lounge</span>
-=======
                             <button class="btn btn-blue">Reserve Now</button>
                         </div>
                     </div>
@@ -4584,7 +4373,6 @@ function filterRooms() {
                                     <h3 class="room-name">Executive Suite</h3>
                                     <div class="room-features">
                                         <span class="room-feature"><i class="fas fa-bed"></i> King Bed</span>
->>>>>>> ba6aca4359c23d52b4c13df9fef06393eb0b685b
                                         <span class="room-feature"><i class="fas fa-user"></i> 4 Guests</span>
                                         <span class="room-feature"><i class="fas fa-expand"></i> 55 m²</span>
                                     </div>
@@ -4596,20 +4384,7 @@ function filterRooms() {
 
                             <div class="room-info">
                                 <div class="room-type-name">Executive Suite</div>
-<<<<<<< HEAD
-                                <div class="room-amenities">Executive lounge • Premium minibar • Work lounge • Luxury bath</div>
-                                <div class="room-select-row">
-                                    <label>Choose room number</label>
-                                    <select class="room-number-select" onclick="event.stopPropagation()" onchange="event.stopPropagation()">
-                                        <option value="401">Room 401</option>
-                                        <option value="402">Room 402</option>
-                                        <option value="403">Room 403</option>
-                                        <option value="404">Room 404</option>
-                                        <option value="405">Room 405</option>
-                                    </select>
-=======
                                 <div class="room-amenities">Panoramic view • Living room • Jacuzzi • Butler service
->>>>>>> ba6aca4359c23d52b4c13df9fef06393eb0b685b
                                 </div>
                             </div>
                         </div>
@@ -4619,20 +4394,6 @@ function filterRooms() {
                                 <div class="price-sub">per night</div>
                                 <div class="status-note">Available for your dates</div>
                             </div>
-<<<<<<< HEAD
-                            <button class="btn btn-blue" onclick="reserveGroupedRoom(this, event)">Reserve Now</button>
-                        </div>
-                    </div>
-
-                    <div class="room-card" data-status="vacant" data-price="15000" data-capacity="4" data-room-type="Family Room" data-room-name="Family Room" data-room-price="15000" data-room-image="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80">
-                        <div class="status-strip vacant"></div>
-                        <img src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="room-image" alt="Family Room">
-                        <div class="room-content">
-                            <div class="room-header">
-                                <div>
-                                    <h3 class="room-name">Family Room</h3>
-                                    <div class="room-number">5 available rooms</div>
-=======
                             <button class="btn btn-blue">Reserve Now</button>
                         </div>
                     </div>
@@ -4648,7 +4409,6 @@ function filterRooms() {
                                 <div>
                                     
                                     <h3 class="room-name">Family Connecting Room</h3>
->>>>>>> ba6aca4359c23d52b4c13df9fef06393eb0b685b
                                     <div class="room-features">
                                         <span class="room-feature"><i class="fas fa-bed"></i> 2 Queen Beds</span>
                                         <span class="room-feature"><i class="fas fa-user"></i> 4 Guests</span>
@@ -4662,22 +4422,8 @@ function filterRooms() {
 
                             <div class="room-info">
                                 <div class="room-type-name">Family Room</div>
-<<<<<<< HEAD
-                                <div class="room-amenities">Connecting rooms • Kids amenities • Game console • Mini fridge</div>
-                                <div class="room-select-row">
-                                    <label>Choose room number</label>
-                                    <select class="room-number-select" onclick="event.stopPropagation()" onchange="event.stopPropagation()">
-                                        <option value="501">Room 501</option>
-                                        <option value="502">Room 502</option>
-                                        <option value="503">Room 503</option>
-                                        <option value="504">Room 504</option>
-                                        <option value="505">Room 505</option>
-                                    </select>
-                                </div>
-=======
                                 <div class="room-amenities">Connecting rooms • Kids amenities • Game console • Mini
                                     fridge</div>
->>>>>>> ba6aca4359c23d52b4c13df9fef06393eb0b685b
                             </div>
                         </div>
                         <div class="room-actions">
@@ -4686,19 +4432,12 @@ function filterRooms() {
                                 <div class="price-sub">per night</div>
                                 <div class="status-note">Available for your dates</div>
                             </div>
-<<<<<<< HEAD
-                            <button class="btn btn-blue" onclick="reserveGroupedRoom(this, event)">Reserve Now</button>
-                        </div>
-                    </div>
-
-=======
                             <button class="btn btn-blue">Reserve Now</button>
                         </div>
                     </div>
 
                     <!-- Room 6 - Vacant -->
                     
->>>>>>> ba6aca4359c23d52b4c13df9fef06393eb0b685b
                 </div>
             </main>
         </div>
@@ -5255,11 +4994,7 @@ function filterRooms() {
 
             <div class="reservation-header">
                 <div>
-<<<<<<< HEAD
-                    <strong>Booking ID: {{ reservation.booking_id }}</strong>
-=======
                     <strong>Booking #{{ reservation.booking_id }}</strong>
->>>>>>> ba6aca4359c23d52b4c13df9fef06393eb0b685b
                     <p>{{ reservation.check_in }} - {{ reservation.check_out }}</p>
                 </div>
                 <span class="status-badge completed">Completed</span>
@@ -5360,10 +5095,6 @@ function filterRooms() {
                         </div>
                     </div>
                 </div>
-<<<<<<< HEAD
-            </div>
-=======
->>>>>>> ba6aca4359c23d52b4c13df9fef06393eb0b685b
 
                 <!-- ==================== PAGE 7: POPULAR DEALS ==================== -->
                 <div id="popularPage" class="page" style="background:#f3f4f6;">
@@ -5417,10 +5148,7 @@ function filterRooms() {
                         <section class="flash-deals container">
                             <div class="section-header">
                                 <h2 class="section-title"><i class="fas fa-bolt"></i> Flash Deals</h2>
-<<<<<<< HEAD
-=======
                                 <a class="view-all">View all deals <i class="fas fa-arrow-right"></i></a>
->>>>>>> ba6aca4359c23d52b4c13df9fef06393eb0b685b
                             </div>
 
                             <div class="countdown-banner">
@@ -5743,16 +5471,12 @@ function filterRooms() {
                                     <p style="color: var(--text-light); font-size: 0.9rem; line-height: 1.6;">Your
                                         trusted partner for unforgettable stays. Book with confidence and experience
                                         hospitality at its finest.</p>
-<<<<<<< HEAD
-                                   
-=======
                                     <div class="social-links" style="margin-top: 1rem;">
                                         <a><i class="fab fa-facebook-f"></i></a>
                                         <a><i class="fab fa-twitter"></i></a>
                                         <a><i class="fab fa-instagram"></i></a>
                                         <a><i class="fab fa-youtube"></i></a>
                                     </div>
->>>>>>> ba6aca4359c23d52b4c13df9fef06393eb0b685b
                                 </div>
 
                                 <div class="footer-section">
@@ -5918,34 +5642,6 @@ function filterRooms() {
                     let newReservationCount = 0;
                     let currentCancelCard = null;
 
-<<<<<<< HEAD
-                    function getLatestBookingIdFromUrlOrStorage() {
-                        const params = new URLSearchParams(window.location.search);
-                        const urlBookingId = params.get("booking_id");
-                        if (urlBookingId) return urlBookingId;
-
-                        if (typeof getUserStorageKey === "function") {
-                            const savedBookingId = localStorage.getItem(getUserStorageKey("latestBookingId"));
-                            if (savedBookingId) return savedBookingId;
-                        }
-
-                        return "";
-                    }
-
-                    function getDisplayBookingId(res = {}) {
-                        return (
-                            res.booking_id ||
-                            res.bookingId ||
-                            res.reservation_id ||
-                            getLatestBookingIdFromUrlOrStorage() ||
-                            res.id ||
-                            newReservationCount ||
-                            ""
-                        );
-                    }
-
-=======
->>>>>>> ba6aca4359c23d52b4c13df9fef06393eb0b685b
                     function formatDateForDisplay(dateValue) {
                         if (!dateValue) return 'Not selected';
                         const date = new Date(dateValue + 'T00:00:00');
@@ -6128,10 +5824,6 @@ function buildReservationCard(res, status = "confirmed") {
     const servicesText = res.services || "No additional services selected";
     const guestInitial = (res.fullname || "G").trim().charAt(0).toUpperCase();
     const normalizedStatus = String(status || res.status || "confirmed").toLowerCase();
-<<<<<<< HEAD
-    const bookingDisplayId = getDisplayBookingId(res);
-=======
->>>>>>> ba6aca4359c23d52b4c13df9fef06393eb0b685b
     const isCancelled = normalizedStatus === "cancelled";
     const isCompleted = normalizedStatus === "completed" || normalizedStatus === "past";
 
@@ -6154,14 +5846,10 @@ function buildReservationCard(res, status = "confirmed") {
         noticeText = "Cancelled by guest. Refund is being processed.";
         noticeColor = 'style="color: var(--danger);"';
         actionsHtml = `
-<<<<<<< HEAD
-           
-=======
             <button class="btn btn-outline btn-sm" onclick="viewCancellationPolicy()">
                 <i class="fas fa-file-alt"></i>
                 Policy
             </button>
->>>>>>> ba6aca4359c23d52b4c13df9fef06393eb0b685b
             <button class="btn btn-primary btn-sm" onclick="rebookCancelledReservation('${res.id}')">
                 <i class="fas fa-redo"></i>
                 Rebook
@@ -6204,11 +5892,7 @@ function buildReservationCard(res, status = "confirmed") {
         <div class="reservation-header">
             <div class="reservation-ref">
                 <div>
-<<<<<<< HEAD
-                    <div class="ref-number">Booking ID: ${bookingDisplayId}</div>
-=======
                     <div class="ref-number">Booking #${res.ref}</div>
->>>>>>> ba6aca4359c23d52b4c13df9fef06393eb0b685b
                     <div class="ref-date">Booked: ${res.dateBooked || "Today"}</div>
                 </div>
             </div>
@@ -6532,48 +6216,10 @@ function loadSavedReservations() {
         card.style.display = "flex";
     });
                     }
-<<<<<<< HEAD
-
-                    function reserveGroupedRoom(button, event) {
-                        if (event) {
-                            event.preventDefault();
-                            event.stopPropagation();
-                        }
-
-                        const card = button.closest('.room-card');
-                        if (!card) return;
-
-                        const select = card.querySelector('.room-number-select');
-                        const roomNumber = select ? select.value : '';
-                        const roomName = card.dataset.roomName || card.dataset.roomType || 'Room';
-                        const roomPrice = parseInt(card.dataset.roomPrice || card.dataset.price || '0', 10) || 0;
-                        const roomImage = card.dataset.roomImage || card.querySelector('.room-image')?.src || '';
-                        const roomStatus = (card.dataset.status || 'vacant').toLowerCase();
-
-                        if (!roomNumber) {
-                            showToast('Please choose a room number first.');
-                            return;
-                        }
-
-                        selectRoom(roomNumber, roomName, roomPrice, roomImage, roomStatus);
-                    }
-=======
->>>>>>> ba6aca4359c23d52b4c13df9fef06393eb0b685b
                     function selectRoom(number, name, price, image, status, dates) {
                         if (!requireLogin()) return;
                         if (status !== 'vacant') return;
                         selectedRoom = { number, name, price, image, status, dates };
-<<<<<<< HEAD
-
-                        const roomNumberInt = parseInt(number, 10);
-                        let assignedRoomType = 'Standard';
-                        if (roomNumberInt >= 201 && roomNumberInt <= 210) assignedRoomType = 'Deluxe';
-                        else if (roomNumberInt >= 301 && roomNumberInt <= 305) assignedRoomType = 'Suite';
-                        else if (roomNumberInt >= 401 && roomNumberInt <= 405) assignedRoomType = 'Executive Suite';
-                        else if (roomNumberInt >= 501 && roomNumberInt <= 505) assignedRoomType = 'Family Room';
-                        bookingExtras.roomTypeName = assignedRoomType;
-=======
->>>>>>> ba6aca4359c23d52b4c13df9fef06393eb0b685b
                         const adults = document.getElementById('sidebarAdults').value || 2;
                         const children = document.getElementById('sidebarChildren').value || 0;
                         bookingExtras.adults = parseInt(adults);
@@ -6586,10 +6232,6 @@ function loadSavedReservations() {
                         document.getElementById('selectedRoomStatus').textContent = 'Vacant - Available';
                         document.getElementById('summaryRoomNumber').textContent = `Room ${number}`;
                         document.getElementById('summaryRoomType').textContent = name;
-<<<<<<< HEAD
-                        document.getElementById('summaryRoomTypeSelected').textContent = bookingExtras.roomTypeName;
-=======
->>>>>>> ba6aca4359c23d52b4c13df9fef06393eb0b685b
                         document.getElementById('summaryImage').src = image;
                         syncBookingSummaryDates();
                         updateBookingGuests();
@@ -6742,24 +6384,12 @@ function loadSavedReservations() {
                     }
 
                     function getRoomDatabaseId(roomNumber) {
-<<<<<<< HEAD
-                        // StayEase room numbers must match the Django Admin room_number field.
-                        // Correct mapping:
-                        // Standard: 101-110
-                        // Deluxe: 201-210
-                        // Suite: 301-305
-                        // Executive Suite: 401-405
-                        // Family Room: 501-505
-                        // Example: Room 303 must submit to /booking/303/, not /booking/203/.
-                        const numericRoom = parseInt(roomNumber, 10);
-=======
                         // Static UI rooms are 101, 102, 103... while Django Room IDs are usually 1, 2, 3...
                         // Example: Room 101 -> /booking/1/, Room 102 -> /booking/2/
                         const numericRoom = parseInt(roomNumber, 10);
                         if (!Number.isNaN(numericRoom) && numericRoom >= 101) {
                             return numericRoom - 100;
                         }
->>>>>>> ba6aca4359c23d52b4c13df9fef06393eb0b685b
                         return numericRoom || 1;
                     }
                     let pendingBookingData = null;
@@ -6848,11 +6478,6 @@ function loadSavedReservations() {
                         document.getElementById('djangoBookingSpecialRequests').value = pendingBookingData.specialRequests;
                         document.getElementById('djangoBookingPaymentMethod').value = pendingBookingData.paymentMethod;
                         
-<<<<<<< HEAD
-                        sessionStorage.setItem("lastPendingBookingLocalId", String(pendingBookingData.id));
-
-=======
->>>>>>> ba6aca4359c23d52b4c13df9fef06393eb0b685b
                         let savedReservations = JSON.parse(localStorage.getItem(getUserStorageKey("stayeaseReservations"))) || [];
                         savedReservations.unshift(pendingBookingData);
                         localStorage.setItem(getUserStorageKey("stayeaseReservations"), JSON.stringify(savedReservations));
@@ -6876,10 +6501,6 @@ function loadSavedReservations() {
 
                     function addReservationCard() {
                         newReservationCount++;
-<<<<<<< HEAD
-                        const bookingDisplayId = getDisplayBookingId();
-=======
->>>>>>> ba6aca4359c23d52b4c13df9fef06393eb0b685b
 
                         const reservationList = document.querySelector("#upcoming .reservation-list");
 
@@ -6890,11 +6511,7 @@ function loadSavedReservations() {
         <div class="reservation-header">
             <div class="reservation-ref">
                 <div>
-<<<<<<< HEAD
-                    <div class="ref-number">Booking ID: ${bookingDisplayId}</div>
-=======
                     <div class="ref-number">Booking #SE-NEW-${String(newReservationCount).padStart(3, '0')}</div>
->>>>>>> ba6aca4359c23d52b4c13df9fef06393eb0b685b
                     <div class="ref-date">Booked today</div>
                 </div>
             </div>
@@ -7125,38 +6742,13 @@ function loadSavedReservations() {
                             return;
                         }
 
-<<<<<<< HEAD
-                        const savedReservations = JSON.parse(localStorage.getItem(getUserStorageKey("stayeaseReservations"))) || [];
-                        const cancelledReservations = JSON.parse(localStorage.getItem(getUserStorageKey("stayeaseCancelledReservations"))) || [];
-=======
                         let savedReservations = JSON.parse(localStorage.getItem(getUserStorageKey("stayeaseReservations"))) || [];
                         let cancelledReservations = JSON.parse(localStorage.getItem(getUserStorageKey("stayeaseCancelledReservations"))) || [];
->>>>>>> ba6aca4359c23d52b4c13df9fef06393eb0b685b
 
                         const reservationIndex = savedReservations.findIndex(
                             r => String(r.id) === String(pendingCancelReservationId)
                         );
 
-<<<<<<< HEAD
-                        if (reservationIndex !== -1) {
-                            const cancelledReservation = {
-                                ...savedReservations[reservationIndex],
-                                status: "cancelled",
-                                cancelledDate: new Date().toLocaleDateString()
-                            };
-
-                            savedReservations.splice(reservationIndex, 1);
-                            cancelledReservations.unshift(cancelledReservation);
-
-                            localStorage.setItem(getUserStorageKey("stayeaseReservations"), JSON.stringify(savedReservations));
-                            localStorage.setItem(getUserStorageKey("stayeaseCancelledReservations"), JSON.stringify(cancelledReservations));
-                        }
-
-                        localStorage.removeItem(getUserStorageKey("latestBookingId"));
-
-                        window.location.href = `/cancel-reservation/${pendingCancelReservationId}/`;
-                        return;
-=======
                         if (reservationIndex === -1) {
                             showToast('Reservation not found.');
                             closeCancelModal();
@@ -7180,55 +6772,16 @@ function loadSavedReservations() {
                         switchTab('cancelled', document.querySelector("#reservationsPage .tab[onclick*='cancelled']"));
                         navigateTo('reservations');
                         showToast('Reservation cancelled. Moved to Cancelled tab.');
->>>>>>> ba6aca4359c23d52b4c13df9fef06393eb0b685b
                     }
 
                     function getRoomNightlyPrice(roomNumber, fallbackTotal, checkin, checkout) {
                         const roomPrices = {
-<<<<<<< HEAD
-                            '101': 5500,
-                            '102': 5500,
-                            '103': 5500,
-                            '104': 5500,
-                            '105': 5500,
-                            '106': 5500,
-                            '107': 5500,
-                            '108': 5500,
-                            '109': 5500,
-                            '110': 5500,
-                            '201': 8500,
-                            '202': 8500,
-                            '203': 8500,
-                            '204': 8500,
-                            '205': 8500,
-                            '206': 8500,
-                            '207': 8500,
-                            '208': 8500,
-                            '209': 8500,
-                            '210': 8500,
-                            '301': 12000,
-                            '302': 12000,
-                            '303': 12000,
-                            '304': 12000,
-                            '305': 12000,
-                            '401': 18000,
-                            '402': 18000,
-                            '403': 18000,
-                            '404': 18000,
-                            '405': 18000,
-                            '501': 15000,
-                            '502': 15000,
-                            '503': 15000,
-                            '504': 15000,
-                            '505': 15000
-=======
                             '101': 8500,
                             '102': 12000,
                             '103': 5500,
                             '104': 25000,
                             '105': 15000,
                             '106': 7200
->>>>>>> ba6aca4359c23d52b4c13df9fef06393eb0b685b
                         };
 
                         if (roomPrices[String(roomNumber)]) return roomPrices[String(roomNumber)];
@@ -7421,67 +6974,22 @@ document.addEventListener('click', function (event) {
                             });
                         }
 
-                        navigateTo(isAuthenticated ? 'home' : 'login');
+                        const allowedPages = ['home', 'search', 'booking', 'reservations', 'popular', 'login', 'register', 'otp'];
+                        const hashPage = (window.location.hash || '').replace('#', '').replace('Page', '');
+                        const djangoOpenPage = (document.body.dataset.openPage || '').replace('Page', '');
+                        const requestedPage = allowedPages.includes(hashPage) ? hashPage : (allowedPages.includes(djangoOpenPage) ? djangoOpenPage : '');
+
+                        if (requestedPage) {
+                            navigateTo(requestedPage);
+                        } else {
+                            navigateTo(isAuthenticated ? 'home' : 'login');
+                        }
+
                         updateCountdown();
 
                     });
                 </script>
                 
-<<<<<<< HEAD
-            <script>
-            window.addEventListener("DOMContentLoaded", syncLatestBookingIdFromUrl);
-
-            function syncLatestBookingIdFromUrl() {
-            const params = new URLSearchParams(window.location.search);
-            const latestBookingId = params.get("booking_id");
-
-            if (!latestBookingId) return;
-            localStorage.setItem(getUserStorageKey("latestBookingId"), latestBookingId);
-
-            const keys = [
-                "stayeaseReservations",
-                "stayeasePastReservations"
-            ];
-
-            const localPendingId = sessionStorage.getItem("lastPendingBookingLocalId");
-
-            keys.forEach(key => {
-            let reservations = JSON.parse(
-            localStorage.getItem(getUserStorageKey(key)) || "[]"
-        );
-
-        let targetReservation = null;
-
-        if (localPendingId) {
-            targetReservation = reservations.find(res => String(res.id) === String(localPendingId));
-        }
-
-        if (!targetReservation && reservations.length > 0) {
-            targetReservation = reservations[0];
-        }
-
-        if (targetReservation) {
-            targetReservation.booking_id = latestBookingId;
-            targetReservation.bookingId = latestBookingId;
-            targetReservation.reservation_id = latestBookingId;
-        }
-
-        localStorage.setItem(
-            getUserStorageKey(key),
-            JSON.stringify(reservations)
-        );
-    });
-
-    sessionStorage.removeItem("lastPendingBookingLocalId");
-
-    console.log("BOOKING ID SYNCED:", latestBookingId);
-}
-
-</script>
-
-                
-=======
->>>>>>> ba6aca4359c23d52b4c13df9fef06393eb0b685b
 <script>
     function openPolicy(type) {
     const title = document.getElementById("policyTitle");
@@ -7685,23 +7193,24 @@ document.addEventListener("DOMContentLoaded", function () {
     protectDates("bookingCheckin", "bookingCheckout");
 });
 function showPageFromHash() {
-    let hash = window.location.hash;
+    const hash = window.location.hash;
 
-    if (hash === "#homePage") {
-        document.querySelectorAll(".page").forEach(page => {
-            page.classList.remove("active");
-        });
+    if (!hash) return;
 
-        document.getElementById("loginPage").classList.remove("active");
-        document.getElementById("homePage").classList.add("active");
-    }
+    const pageMap = {
+        '#homePage': 'home',
+        '#searchPage': 'search',
+        '#bookingPage': 'booking',
+        '#reservationsPage': 'reservations',
+        '#popularPage': 'popular',
+        '#loginPage': 'login',
+        '#registerPage': 'register',
+        '#otpPage': 'otp'
+    };
 
-    if (hash === "#loginPage" || hash === "") {
-        document.querySelectorAll(".page").forEach(page => {
-            page.classList.remove("active");
-        });
-
-        document.getElementById("loginPage").classList.add("active");
+    const page = pageMap[hash];
+    if (page && typeof navigateTo === 'function') {
+        navigateTo(page);
     }
 }
 
@@ -8753,12 +8262,7 @@ function openReviewForReservation(reservationId) {
         return;
     }
 
-<<<<<<< HEAD
-        showReviewModal({
-        booking_id: reservation.booking_id || reservation.bookingId || reservation.reservation_id || null,
-=======
     showReviewModal({
->>>>>>> ba6aca4359c23d52b4c13df9fef06393eb0b685b
         id: reservation.id,
         room: reservation.roomNumber ? `Room ${reservation.roomNumber}` : 'Your Room',
         roomType: reservation.roomName || '',
@@ -8777,17 +8281,7 @@ function showReviewModal(stayData) {
     }
 
     _reviewRating = 0;
-<<<<<<< HEAD
-
-    _reviewReservationId =
-    stayData?.booking_id
-    || stayData?.bookingId
-    || stayData?.reservation_id
-    || stayData?.id
-    || null;
-=======
     _reviewReservationId = stayData?.id ? String(stayData.id) : null;
->>>>>>> ba6aca4359c23d52b4c13df9fef06393eb0b685b
 
     const comment = document.getElementById('reviewComment');
     const charCount = document.getElementById('reviewCharCount');
@@ -8878,65 +8372,13 @@ function submitReview() {
     reviews.unshift({
         reservationId: _reviewReservationId,
         rating: _reviewRating,
-<<<<<<< HEAD
-        comment: comment,   
-=======
         comment: comment,
->>>>>>> ba6aca4359c23d52b4c13df9fef06393eb0b685b
         submittedAt: new Date().toISOString()
     });
 
     localStorage.setItem('stayeaseReviews', JSON.stringify(reviews));
-<<<<<<< HEAD
-    const urlBookingId = String(_reviewReservationId);
-
-    let pastReservations = JSON.parse(
-    localStorage.getItem(getUserStorageKey("stayeasePastReservations")) || '[]'
-);
-
-    const matchedPast = pastReservations.find(res =>
-    String(res.booking_id) === urlBookingId ||
-    String(res.bookingId) === urlBookingId ||
-    String(res.reservation_id) === urlBookingId ||
-    String(res.id) === urlBookingId
-);
-
-    if (matchedPast) {
-        saveReviewedReservationId(matchedPast.id);
-
-        matchedPast.rated = true;
-
-       localStorage.setItem(
-        getUserStorageKey("stayeasePastReservations"),
-        JSON.stringify(pastReservations)
-    );
-}
-
-    const form = document.createElement('form');
-    form.method = 'POST';
-    form.action = `/submit-review/${_reviewReservationId}/`;
-
-    form.innerHTML = `
-    <input type="hidden" name="csrfmiddlewaretoken" value="${document.querySelector('[name=csrfmiddlewaretoken]').value}">
-    <input type="hidden" name="rating" value="${_reviewRating}">
-    <input type="hidden" name="comment">
-`;
-    form.querySelector('input[name="comment"]').value = comment;
-
-    document.body.appendChild(form);
-
-    if (!_reviewReservationId || _reviewReservationId === 'null') {
-    alert('Missing booking ID. Please refresh the page after booking, then try rating again.');
-    return;
-    }
-
-    saveReviewedReservationId(_reviewReservationId);
-    form.submit();
-    return;
-=======
     saveReviewedReservationId(_reviewReservationId);
 
->>>>>>> ba6aca4359c23d52b4c13df9fef06393eb0b685b
     if (typeof loadSavedReservations === 'function') {
         loadSavedReservations();
     }
@@ -9039,155 +8481,7 @@ window.addEventListener('focus', function () {
     </div>
 </div>
 
-<<<<<<< HEAD
-
-<script>
-/* =========================
-   ROOM STATUS FILTER + CARD STATUS VISUALS
-   Added only for Rooms page filtering. Does not touch booking/payment/review logic.
-========================= */
-(function () {
-    const $ = (id) => document.getElementById(id);
-
-    const STATUS_CONFIG = {
-        vacant: {
-            badge: '<i class="fas fa-check-circle"></i> Vacant',
-            note: 'Available for your dates',
-            button: 'Reserve Now',
-            disabled: false
-        },
-        occupied: {
-            badge: '<i class="fas fa-times-circle"></i> Occupied',
-            note: 'Occupied for selected dates',
-            button: 'Unavailable',
-            disabled: true
-        },
-        pending: {
-            badge: '<i class="fas fa-clock"></i> Pending',
-            note: 'Awaiting confirmation',
-            button: 'On Hold',
-            disabled: true
-        },
-        received: {
-            badge: '<i class="fas fa-bell"></i> Received',
-            note: 'Reserved for arriving guest',
-            button: 'Reserved',
-            disabled: true
-        }
-    };
-
-    function normalizeStatus(status) {
-        const value = String(status || 'vacant').toLowerCase().trim();
-        return STATUS_CONFIG[value] ? value : 'vacant';
-    }
-
-    function applyRoomStatusVisuals() {
-        document.querySelectorAll('#roomList > .room-card').forEach(card => {
-            const status = normalizeStatus(card.dataset.status);
-            const config = STATUS_CONFIG[status];
-            card.dataset.status = status;
-
-            card.classList.toggle('disabled', status !== 'vacant');
-
-            const strip = card.querySelector('.status-strip');
-            if (strip) strip.className = 'status-strip ' + status;
-
-            const badge = card.querySelector('.room-status-badge');
-            if (badge) {
-                badge.className = 'room-status-badge ' + status;
-                badge.innerHTML = config.badge;
-            }
-
-            const note = card.querySelector('.status-note');
-            if (note) note.textContent = config.note;
-
-            const button = card.querySelector('.room-actions button');
-            if (button) {
-                button.textContent = config.button;
-                button.disabled = config.disabled;
-            }
-        });
-    }
-
-    function getSelectedStatuses() {
-        const statuses = [];
-        if ($('filterVacant')?.checked) statuses.push('vacant');
-        if ($('filterOccupied')?.checked) statuses.push('occupied');
-        if ($('filterPending')?.checked) statuses.push('pending');
-        if ($('filterReceived')?.checked) statuses.push('received');
-        return statuses;
-    }
-
-    function getPriceFilters() {
-        return {
-            mid: $('price5000to10000')?.checked || false,
-            high: $('priceOver10000')?.checked || false
-        };
-    }
-
-    function priceMatches(card) {
-        const price = parseInt(card.dataset.price || '0', 10) || 0;
-        const filters = getPriceFilters();
-        if (!filters.mid && !filters.high) return true;
-        if (filters.mid && price >= 5000 && price <= 10000) return true;
-        if (filters.high && price > 10000) return true;
-        return false;
-    }
-
-    function guestMatches(card) {
-        const adults = parseInt($('sidebarAdults')?.value || '0', 10) || 0;
-        const children = parseInt($('sidebarChildren')?.value || '0', 10) || 0;
-        const needed = adults + children;
-        const capacity = parseInt(card.dataset.capacity || '999', 10) || 999;
-        return needed <= capacity;
-    }
-
-    function updateMetaCount(visibleCount) {
-        const meta = $('searchMeta');
-        if (!meta) return;
-        const adults = parseInt($('sidebarAdults')?.value || '0', 10) || 0;
-        const children = parseInt($('sidebarChildren')?.value || '0', 10) || 0;
-        const checkin = $('sidebarCheckin')?.value || '';
-        const checkout = $('sidebarCheckout')?.value || '';
-        const dateText = (typeof formatDateRange === 'function') ? formatDateRange(checkin, checkout) : `${checkin} - ${checkout}`;
-        meta.textContent = `${visibleCount} room${visibleCount !== 1 ? 's' : ''} available for: ${dateText}, ${adults} adult${adults !== 1 ? 's' : ''}, ${children} children`;
-    }
-
-    window.filterRooms = function () {
-        applyRoomStatusVisuals();
-        const selectedStatuses = getSelectedStatuses();
-        let visibleCount = 0;
-
-        document.querySelectorAll('#roomList > .room-card').forEach(card => {
-            const status = normalizeStatus(card.dataset.status);
-            const statusMatch = selectedStatuses.length === 0 || selectedStatuses.includes(status);
-            const show = statusMatch && priceMatches(card) && guestMatches(card);
-            card.style.display = show ? 'flex' : 'none';
-            if (show) visibleCount += 1;
-        });
-
-        updateMetaCount(visibleCount);
-    };
-
-    window.resetRoomStatusFilters = function () {
-        ['filterVacant', 'filterOccupied', 'filterPending', 'filterReceived'].forEach(id => {
-            const box = $(id);
-            if (box) box.checked = false;
-        });
-        window.filterRooms();
-    };
-
-    document.addEventListener('DOMContentLoaded', function () {
-        applyRoomStatusVisuals();
-        window.filterRooms();
-    });
-})();
-</script>
-
-</body>
-=======
 </body>
 
 
->>>>>>> ba6aca4359c23d52b4c13df9fef06393eb0b685b
 </html> 
