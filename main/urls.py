@@ -17,6 +17,5 @@ urlpatterns = [
     path("reset-password/", views.reset_password, name="reset_password"),
     path("cancel-reservation/<int:booking_id>/", views.cancel_reservation, name="cancel_reservation"),
 
-    path('popular/', views.popular, name='popular'),
 
 ]
