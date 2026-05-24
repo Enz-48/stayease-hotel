@@ -23,12 +23,19 @@ class RoomType(models.Model):
 
 
 class Room(models.Model):
+    ROOM_STATUS_CHOICES = (
+        ("vacant", "Vacant"),
+        ("occupied", "Occupied"),
+        ("maintenance", "Maintenance"),
+        ("unavailable", "Unavailable"),
+    )
+
     room_id = models.AutoField(primary_key=True)
     room_number = models.CharField(max_length=20)
     room_type = models.ForeignKey(RoomType, on_delete=models.CASCADE)
     bed_type = models.CharField(max_length=100, default="Single Bed")
     price = models.DecimalField(max_digits=10, decimal_places=2, default=0)
-    room_status = models.CharField(max_length=20, default="vacant")
+    room_status = models.CharField(max_length=20, choices=ROOM_STATUS_CHOICES, default="vacant")
 
     def __str__(self):
         return f"Room {self.room_number} - {self.room_type}"

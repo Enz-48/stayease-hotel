@@ -1,15 +1,4 @@
 <!DOCTYPE html>
-<<<<<<< HEAD
-=======
-<!--
-COMBINED FINAL FILE
-- Based on the version with full Reservations/My Reservations UI.
-- Keeps the database-linked hidden Django booking form.
-- Fixes the privacy bug by scoping My Reservations localStorage per logged-in user.
-- Proceed to Payment now submits to Django so backend database/email features can run.
--->
-
->>>>>>> ba6aca4359c23d52b4c13df9fef06393eb0b685b
 <html lang="en">
 
 <head>
@@ -878,7 +867,6 @@ COMBINED FINAL FILE
             min-width: 140px;
         }
 
-<<<<<<< HEAD
         .room-select-row {
             margin-top: 0.9rem;
             max-width: 260px;
@@ -909,8 +897,6 @@ COMBINED FINAL FILE
             box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
         }
 
-=======
->>>>>>> ba6aca4359c23d52b4c13df9fef06393eb0b685b
         .price-section {
             text-align: right;
         }
@@ -3930,11 +3916,7 @@ body {
                     </div>
                 {% endif %}
 
-<<<<<<< HEAD
                     <form class="auth-form" method="POST" id="loginForm" onsubmit="return true;">                   
-=======
-                    <form class="auth-form" method="POST" id="loginForm">                    
->>>>>>> ba6aca4359c23d52b4c13df9fef06393eb0b685b
                         {% csrf_token %}
 
                     <input type="hidden" name="form_type" value="login">
@@ -3944,12 +3926,8 @@ body {
                     </div>
 
                     <div class="form-group">
-<<<<<<< HEAD
                        <input type="password" name="login_password" id="loginPassword" placeholder="Password">
 
-=======
-                        <input type="password" name="login_password" id="loginPassword" placeholder="Password" required>
->>>>>>> ba6aca4359c23d52b4c13df9fef06393eb0b685b
                     </div>
 
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
@@ -3957,13 +3935,9 @@ body {
                             <input type="checkbox" style="width: 16px; height: 16px;">
                             Remember me
                         </label>
-<<<<<<< HEAD
                      <a href="/forgot-password/" style="font-size: 0.875rem; color: var(--primary); text-decoration: none;">
                         Forgot Password?
                     </a>
-=======
-                        <a href="#" style="font-size: 0.875rem; color: var(--primary); text-decoration: none;">Forgot password?</a>
->>>>>>> ba6aca4359c23d52b4c13df9fef06393eb0b685b
                     </div>
 
                     <button type="submit" class="submit-btn">Sign In</button>
@@ -4214,7 +4188,6 @@ body {
                     <button class="btn btn-blue search-btn-sidebar" onclick="updateSearch()">Search</button>
                 </div>
 
-<<<<<<< HEAD
 
                 <div class="filter-section" id="roomStatusFilterSection">
                     <div class="filter-header">
@@ -4241,8 +4214,6 @@ body {
                     </div>
                 </div>
 
-=======
->>>>>>> ba6aca4359c23d52b4c13df9fef06393eb0b685b
                 <div class="filter-section">
                     <div class="filter-title">Price per night</div>
                     <div class="filter-list">
@@ -4262,11 +4233,7 @@ body {
             <!-- Main Results -->
             <main class="search-main">
                 <div class="search-header">
-<<<<<<< HEAD
                     <div class="search-meta" id="searchMeta">35 rooms available by room type for selected dates, 2 adults, 0 children
-=======
-                    <div class="search-meta" id="searchMeta">12 rooms available for selected dates, 2 adults, 0 children
->>>>>>> ba6aca4359c23d52b4c13df9fef06393eb0b685b
                     </div>
                     <div class="search-title-row">
                         <h1 class="search-title">Available Rooms</h1>
@@ -4300,7 +4267,6 @@ body {
                 </div>
 
                 <div class="room-list" id="roomList">
-<<<<<<< HEAD
                     <!-- GROUPED ROOM CARDS: one card per room type; exact room number is chosen from dropdown. -->
                     <div class="room-card" data-status="vacant" data-price="5500" data-capacity="2" data-room-type="Standard" data-room-name="Standard" data-room-price="5500" data-room-image="https://images.unsplash.com/photo-1566665797739-1674de7a421a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80">
                         <div class="status-strip vacant"></div>
@@ -4359,18 +4325,6 @@ body {
                                 <div>
                                     <h3 class="room-name">Deluxe</h3>
                                     <div class="room-number">10 available rooms</div>
-=======
-                    <!-- Room 1 - Vacant -->
-                    <div class="room-card" data-status="vacant" data-price="8500" data-capacity="2"
-                        onclick="selectRoom('101', 'Deluxe Ocean View', 8500, 'https://images.unsplash.com/photo-1611892440504-42a792e24d32?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80', 'vacant', 'Dec 9-12')">
-                        <div class="status-strip vacant"></div>
-                        <img src="https://images.unsplash.com/photo-1611892440504-42a792e24d32?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                            class="room-image" alt="Room">
-                        <div class="room-content">
-                            <div class="room-header">
-                                <div>
-                                    <h3 class="room-name">Deluxe Ocean View</h3>
->>>>>>> ba6aca4359c23d52b4c13df9fef06393eb0b685b
                                     <div class="room-features">
                                         <span class="room-feature"><i class="fas fa-bed"></i> King Bed</span>
                                         <span class="room-feature"><i class="fas fa-user"></i> 2 Guests</span>
@@ -4383,7 +4337,6 @@ body {
                             </div>
 
                             <div class="room-info">
-<<<<<<< HEAD
                                 <div class="room-type-name">Deluxe</div>
                                 <div class="room-amenities">Balcony • Bathtub • Premium Wi-Fi • Mini bar</div>
                                 <div class="room-select-row">
@@ -4400,13 +4353,6 @@ body {
                                         <option value="209">Room 209</option>
                                         <option value="210">Room 210</option>
                                     </select>
-=======
-                                <div class="room-type-name">Deluxe Room</div>
-                                <div class="room-amenities">Ocean view • Balcony • Free Wi-Fi • Mini bar</div>
-                                <div class="tags">
-                                    <span class="tag tag-hot">Popular</span>
-                                    <span class="tag tag-popular">Best Value</span>
->>>>>>> ba6aca4359c23d52b4c13df9fef06393eb0b685b
                                 </div>
                             </div>
                         </div>
@@ -4416,7 +4362,6 @@ body {
                                 <div class="price-sub">per night</div>
                                 <div class="status-note">Available for your dates</div>
                             </div>
-<<<<<<< HEAD
                             <button class="btn btn-blue" onclick="reserveGroupedRoom(this, event)">Reserve Now</button>
                         </div>
                     </div>
@@ -4431,52 +4376,6 @@ body {
                                     <div class="room-number">5 available rooms</div>
                                     <div class="room-features">
                                         <span class="room-feature"><i class="fas fa-bed"></i> King Bed + Sofa Bed</span>
-=======
-                            <button class="btn btn-blue">Reserve Now</button>
-                        </div>
-                    </div>
-                    <script>
-const checkboxes = document.querySelectorAll(".status-filter");
-const rooms = document.querySelectorAll(".room-card");
-
-checkboxes.forEach(box => {
-    box.addEventListener("change", filterRooms);
-});
-
-function filterRooms() {
-    const selected = [];
-
-    checkboxes.forEach(box => {
-        if (box.checked) {
-            selected.push(box.value);
-        }
-    });
-
-    rooms.forEach(room => {
-        const status = room.dataset.status;
-
-        if (selected.length === 0 || selected.includes(status)) {
-            room.style.display = "flex";
-        } else {
-            room.style.display = "none";
-        }
-    });
-}
-</script>
-
-                    <!-- Room 2 - Vacant -->
-                    <div class="room-card" data-status="vacant" data-price="12000" data-capacity="4"
-                        onclick="selectRoom('102', 'Premium Garden Suite', 12000, 'https://images.unsplash.com/photo-1590490360182-c33d57733427?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80', 'vacant')">
-                        <div class="status-strip vacant"></div>
-                        <img src="https://images.unsplash.com/photo-1590490360182-c33d57733427?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                            class="room-image" alt="Room">
-                        <div class="room-content">
-                            <div class="room-header">
-                                <div>
-                                    <h3 class="room-na  me">Premium Garden Suite</h3>
-                                    <div class="room-features">
-                                        <span class="room-feature"><i class="fas fa-bed"></i> Queen Bed</span>
->>>>>>> ba6aca4359c23d52b4c13df9fef06393eb0b685b
                                         <span class="room-feature"><i class="fas fa-user"></i> 4 Guests</span>
                                         <span class="room-feature"><i class="fas fa-expand"></i> 42 m²</span>
                                     </div>
@@ -4488,7 +4387,6 @@ function filterRooms() {
 
                             <div class="room-info">
                                 <div class="room-type-name">Suite</div>
-<<<<<<< HEAD
                                 <div class="room-amenities">Living area • City view • Smart TV • Complimentary snacks</div>
                                 <div class="room-select-row">
                                     <label>Choose room number</label>
@@ -4500,9 +4398,6 @@ function filterRooms() {
                                         <option value="305">Room 305</option>
                                     </select>
                                 </div>
-=======
-                                <div class="room-amenities">Garden view • Living area • Kitchenette • Smart TV</div>
->>>>>>> ba6aca4359c23d52b4c13df9fef06393eb0b685b
                             </div>
                         </div>
                         <div class="room-actions">
@@ -4511,7 +4406,6 @@ function filterRooms() {
                                 <div class="price-sub">per night</div>
                                 <div class="status-note">Available for your dates</div>
                             </div>
-<<<<<<< HEAD
                             <button class="btn btn-blue" onclick="reserveGroupedRoom(this, event)">Reserve Now</button>
                         </div>
                     </div>
@@ -4526,65 +4420,6 @@ function filterRooms() {
                                     <div class="room-number">5 available rooms</div>
                                     <div class="room-features">
                                         <span class="room-feature"><i class="fas fa-bed"></i> King Bed + Lounge</span>
-=======
-                            <button class="btn btn-blue">Reserve Now</button>
-                        </div>
-                    </div>
-
-                    <!-- Room 3 - Vacant -->
-                    <div class="room-card" data-status="vacant" data-price="5500" data-capacity="2"
-                        onclick="selectRoom('103', 'Standard City View', 5500, 'https://images.unsplash.com/photo-1566665797739-1674de7a421a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80', 'vacant', 'Dec 9-12')">
-                        <div class="status-strip vacant"></div>
-                        <img src="https://images.unsplash.com/photo-1566665797739-1674de7a421a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                            class="room-image" alt="Room">
-                        <div class="room-content">
-                            <div class="room-header">
-                                <div>
-                            
-                                    <h3 class="room-name">Standard City View</h3>
-                                    <div class="room-features">
-                                        <span class="room-feature"><i class="fas fa-bed"></i> Twin Beds</span>
-                                        <span class="room-feature"><i class="fas fa-user"></i> 2 Guests</span>
-                                        <span class="room-feature"><i class="fas fa-expand"></i> 28 m²</span>
-                                    </div>
-                                </div>
-                                <div class="room-status-badge vacant">
-                                    <i class="fas fa-check-circle"></i> Vacant
-                                </div>
-                            </div>
-
-                            <div class="room-info">
-                                <div class="room-type-name">Standard Room</div>
-                                <div class="room-amenities">City view • Work desk • Free Wi-Fi • Coffee maker</div>
-                                <div class="tags">
-                                    <span class="tag tag-hot">Hot Deal</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="room-actions">
-                            <div class="price-section">
-                                <div class="price">₱5,500</div>
-                                <div class="price-sub">per night</div>
-                                <div class="status-note">Available for your dates</div>
-                            </div>
-                            <button class="btn btn-blue">Reserve Now</button>
-                        </div>
-                    </div>
-
-                    <!-- Room 4 - Vacant -->
-                    <div class="room-card" data-status="vacant" data-price="25000" data-capacity="4"
-                        onclick="selectRoom('104', 'Executive Suite', 25000, 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80', 'vacant')">
-                        <div class="status-strip vacant"></div>
-                        <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                            class="room-image" alt="Room">
-                        <div class="room-content">
-                            <div class="room-header">
-                                <div>
-                                    
-                                    <h3 class="room-name">Executive Suite</h3>
-                                    <div class="room-features">
-                                        <span class="room-feature"><i class="fas fa-bed"></i> King Bed</span>
->>>>>>> ba6aca4359c23d52b4c13df9fef06393eb0b685b
                                         <span class="room-feature"><i class="fas fa-user"></i> 4 Guests</span>
                                         <span class="room-feature"><i class="fas fa-expand"></i> 55 m²</span>
                                     </div>
@@ -4596,7 +4431,6 @@ function filterRooms() {
 
                             <div class="room-info">
                                 <div class="room-type-name">Executive Suite</div>
-<<<<<<< HEAD
                                 <div class="room-amenities">Executive lounge • Premium minibar • Work lounge • Luxury bath</div>
                                 <div class="room-select-row">
                                     <label>Choose room number</label>
@@ -4607,9 +4441,6 @@ function filterRooms() {
                                         <option value="404">Room 404</option>
                                         <option value="405">Room 405</option>
                                     </select>
-=======
-                                <div class="room-amenities">Panoramic view • Living room • Jacuzzi • Butler service
->>>>>>> ba6aca4359c23d52b4c13df9fef06393eb0b685b
                                 </div>
                             </div>
                         </div>
@@ -4619,7 +4450,6 @@ function filterRooms() {
                                 <div class="price-sub">per night</div>
                                 <div class="status-note">Available for your dates</div>
                             </div>
-<<<<<<< HEAD
                             <button class="btn btn-blue" onclick="reserveGroupedRoom(this, event)">Reserve Now</button>
                         </div>
                     </div>
@@ -4632,23 +4462,6 @@ function filterRooms() {
                                 <div>
                                     <h3 class="room-name">Family Room</h3>
                                     <div class="room-number">5 available rooms</div>
-=======
-                            <button class="btn btn-blue">Reserve Now</button>
-                        </div>
-                    </div>
-
-                    <!-- Room 5 - Vacant -->
-                    <div class="room-card" data-status="vacant" data-price="15000" data-capacity="4"
-                        onclick="selectRoom('105', 'Family Connecting Room', 15000, 'https://images.unsplash.com/photo-1631049307264-da0ec9d70304?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80', 'vacant')">
-                        <div class="status-strip vacant"></div>
-                        <img src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                            class="room-image" alt="Room">
-                        <div class="room-content">
-                            <div class="room-header">
-                                <div>
-                                    
-                                    <h3 class="room-name">Family Connecting Room</h3>
->>>>>>> ba6aca4359c23d52b4c13df9fef06393eb0b685b
                                     <div class="room-features">
                                         <span class="room-feature"><i class="fas fa-bed"></i> 2 Queen Beds</span>
                                         <span class="room-feature"><i class="fas fa-user"></i> 4 Guests</span>
@@ -4662,7 +4475,6 @@ function filterRooms() {
 
                             <div class="room-info">
                                 <div class="room-type-name">Family Room</div>
-<<<<<<< HEAD
                                 <div class="room-amenities">Connecting rooms • Kids amenities • Game console • Mini fridge</div>
                                 <div class="room-select-row">
                                     <label>Choose room number</label>
@@ -4674,10 +4486,6 @@ function filterRooms() {
                                         <option value="505">Room 505</option>
                                     </select>
                                 </div>
-=======
-                                <div class="room-amenities">Connecting rooms • Kids amenities • Game console • Mini
-                                    fridge</div>
->>>>>>> ba6aca4359c23d52b4c13df9fef06393eb0b685b
                             </div>
                         </div>
                         <div class="room-actions">
@@ -4686,19 +4494,10 @@ function filterRooms() {
                                 <div class="price-sub">per night</div>
                                 <div class="status-note">Available for your dates</div>
                             </div>
-<<<<<<< HEAD
                             <button class="btn btn-blue" onclick="reserveGroupedRoom(this, event)">Reserve Now</button>
                         </div>
                     </div>
 
-=======
-                            <button class="btn btn-blue">Reserve Now</button>
-                        </div>
-                    </div>
-
-                    <!-- Room 6 - Vacant -->
-                    
->>>>>>> ba6aca4359c23d52b4c13df9fef06393eb0b685b
                 </div>
             </main>
         </div>
@@ -5255,11 +5054,7 @@ function filterRooms() {
 
             <div class="reservation-header">
                 <div>
-<<<<<<< HEAD
                     <strong>Booking ID: {{ reservation.booking_id }}</strong>
-=======
-                    <strong>Booking #{{ reservation.booking_id }}</strong>
->>>>>>> ba6aca4359c23d52b4c13df9fef06393eb0b685b
                     <p>{{ reservation.check_in }} - {{ reservation.check_out }}</p>
                 </div>
                 <span class="status-badge completed">Completed</span>
@@ -5360,10 +5155,7 @@ function filterRooms() {
                         </div>
                     </div>
                 </div>
-<<<<<<< HEAD
             </div>
-=======
->>>>>>> ba6aca4359c23d52b4c13df9fef06393eb0b685b
 
                 <!-- ==================== PAGE 7: POPULAR DEALS ==================== -->
                 <div id="popularPage" class="page" style="background:#f3f4f6;">
@@ -5417,10 +5209,7 @@ function filterRooms() {
                         <section class="flash-deals container">
                             <div class="section-header">
                                 <h2 class="section-title"><i class="fas fa-bolt"></i> Flash Deals</h2>
-<<<<<<< HEAD
-=======
                                 <a class="view-all">View all deals <i class="fas fa-arrow-right"></i></a>
->>>>>>> ba6aca4359c23d52b4c13df9fef06393eb0b685b
                             </div>
 
                             <div class="countdown-banner">
@@ -5743,16 +5532,12 @@ function filterRooms() {
                                     <p style="color: var(--text-light); font-size: 0.9rem; line-height: 1.6;">Your
                                         trusted partner for unforgettable stays. Book with confidence and experience
                                         hospitality at its finest.</p>
-<<<<<<< HEAD
-                                   
-=======
                                     <div class="social-links" style="margin-top: 1rem;">
                                         <a><i class="fab fa-facebook-f"></i></a>
                                         <a><i class="fab fa-twitter"></i></a>
                                         <a><i class="fab fa-instagram"></i></a>
                                         <a><i class="fab fa-youtube"></i></a>
                                     </div>
->>>>>>> ba6aca4359c23d52b4c13df9fef06393eb0b685b
                                 </div>
 
                                 <div class="footer-section">
@@ -5918,7 +5703,6 @@ function filterRooms() {
                     let newReservationCount = 0;
                     let currentCancelCard = null;
 
-<<<<<<< HEAD
                     function getLatestBookingIdFromUrlOrStorage() {
                         const params = new URLSearchParams(window.location.search);
                         const urlBookingId = params.get("booking_id");
@@ -5944,8 +5728,6 @@ function filterRooms() {
                         );
                     }
 
-=======
->>>>>>> ba6aca4359c23d52b4c13df9fef06393eb0b685b
                     function formatDateForDisplay(dateValue) {
                         if (!dateValue) return 'Not selected';
                         const date = new Date(dateValue + 'T00:00:00');
@@ -6128,10 +5910,7 @@ function buildReservationCard(res, status = "confirmed") {
     const servicesText = res.services || "No additional services selected";
     const guestInitial = (res.fullname || "G").trim().charAt(0).toUpperCase();
     const normalizedStatus = String(status || res.status || "confirmed").toLowerCase();
-<<<<<<< HEAD
     const bookingDisplayId = getDisplayBookingId(res);
-=======
->>>>>>> ba6aca4359c23d52b4c13df9fef06393eb0b685b
     const isCancelled = normalizedStatus === "cancelled";
     const isCompleted = normalizedStatus === "completed" || normalizedStatus === "past";
 
@@ -6154,14 +5933,10 @@ function buildReservationCard(res, status = "confirmed") {
         noticeText = "Cancelled by guest. Refund is being processed.";
         noticeColor = 'style="color: var(--danger);"';
         actionsHtml = `
-<<<<<<< HEAD
-           
-=======
             <button class="btn btn-outline btn-sm" onclick="viewCancellationPolicy()">
                 <i class="fas fa-file-alt"></i>
                 Policy
             </button>
->>>>>>> ba6aca4359c23d52b4c13df9fef06393eb0b685b
             <button class="btn btn-primary btn-sm" onclick="rebookCancelledReservation('${res.id}')">
                 <i class="fas fa-redo"></i>
                 Rebook
@@ -6204,11 +5979,7 @@ function buildReservationCard(res, status = "confirmed") {
         <div class="reservation-header">
             <div class="reservation-ref">
                 <div>
-<<<<<<< HEAD
                     <div class="ref-number">Booking ID: ${bookingDisplayId}</div>
-=======
-                    <div class="ref-number">Booking #${res.ref}</div>
->>>>>>> ba6aca4359c23d52b4c13df9fef06393eb0b685b
                     <div class="ref-date">Booked: ${res.dateBooked || "Today"}</div>
                 </div>
             </div>
@@ -6498,6 +6269,7 @@ function loadSavedReservations() {
                         document.getElementById('sidebarAdults').value = adults;
                         document.getElementById('sidebarChildren').value = children;
                         updateGuestSummary();
+                        applyRoomAvailabilityToDropdowns();
                         navigateTo('search');
                     }
 
@@ -6512,6 +6284,164 @@ function loadSavedReservations() {
                         else guestText += ', 0 children';
                         document.getElementById('searchMeta').textContent = `12 rooms available for: ${formatDateRange(checkin, checkout)}, ${guestText}`;
                     }
+
+
+                    // DATE-BASED ROOM AVAILABILITY UI
+                    // Uses localStorage for instant feedback, Django-rendered reservations for page load,
+                    // and an AJAX refresh so occupied rooms update without needing a full page reload.
+                    let liveRoomReservations = [];
+                    let permanentlyBlockedRooms = [];
+                    let liveAvailabilityRequestTimer = null;
+                    let liveAvailabilityController = null;
+                    function datesOverlap(startA, endA, startB, endB) {
+                        return startA < endB && endA > startB;
+                    }
+
+                    function getActiveLocalReservations() {
+                        let saved = [];
+
+                        try {
+                            saved = JSON.parse(localStorage.getItem(getUserStorageKey("stayeaseReservations"))) || [];
+                        } catch (e) {
+                            saved = [];
+                        }
+
+                        const djangoReservations = JSON.parse(`[
+                            {% for reservation in upcoming_reservations %}
+                            {
+                                "roomNumber": "{{ reservation.room.room_number|escapejs }}",
+                                "checkin": "{{ reservation.check_in|date:'Y-m-d' }}",
+                                "checkout": "{{ reservation.check_out|date:'Y-m-d' }}",
+                                "status": "{{ reservation.status|escapejs }}"
+                            }{% if not forloop.last %},{% endif %}
+                            {% endfor %}
+                        ]`);
+
+                        return [...saved, ...djangoReservations, ...liveRoomReservations].filter(res =>
+                            !["cancelled", "completed"].includes(String(res.status || '').toLowerCase())
+                        );
+                    }
+
+                    function isRoomBookedForSelectedDates(roomNumber, checkin, checkout) {
+                        if (!roomNumber || !checkin || !checkout || checkout <= checkin) return false;
+
+                        if (permanentlyBlockedRooms.includes(String(roomNumber).trim())) {
+                            return true;
+                        }
+
+                        return getActiveLocalReservations().some(res => {
+                            const resRoom = String(res.roomNumber || res.room_number || '').trim();
+                            const resCheckin = res.checkin || res.check_in || res.checkIn;
+                            const resCheckout = res.checkout || res.check_out || res.checkOut;
+                            return resRoom === String(roomNumber).trim()
+                                && resCheckin
+                                && resCheckout
+                                && datesOverlap(resCheckin, resCheckout, checkin, checkout);
+                        });
+                    }
+
+
+                    function getSelectedAvailabilityDates() {
+                        return {
+                            checkin: document.getElementById('sidebarCheckin')?.value || document.getElementById('checkin')?.value || '',
+                            checkout: document.getElementById('sidebarCheckout')?.value || document.getElementById('checkout')?.value || ''
+                        };
+                    }
+
+                    function refreshRoomAvailabilityFromServer() {
+                        const { checkin, checkout } = getSelectedAvailabilityDates();
+                        if (!checkin || !checkout || checkout <= checkin) return;
+
+                        if (liveAvailabilityController) {
+                            liveAvailabilityController.abort();
+                        }
+
+                        liveAvailabilityController = new AbortController();
+
+                        fetch(`/room-availability-status/?check_in=${encodeURIComponent(checkin)}&check_out=${encodeURIComponent(checkout)}`, {
+                            method: 'GET',
+                            credentials: 'same-origin',
+                            headers: { 'X-Requested-With': 'XMLHttpRequest' },
+                            signal: liveAvailabilityController.signal
+                        })
+                            .then(response => {
+                                if (!response.ok) throw new Error('Room availability endpoint not ready');
+                                return response.json();
+                            })
+                            .then(data => {
+                                liveRoomReservations = Array.isArray(data.reservations) ? data.reservations : [];
+                                permanentlyBlockedRooms = Array.isArray(data.blockedRooms)
+                                    ? data.blockedRooms.map(room => String(room).trim())
+                                    : [];
+                                applyRoomAvailabilityToDropdowns(false);
+                            })
+                            .catch(error => {
+                                if (error.name !== 'AbortError') {
+                                    console.warn('Live room availability refresh skipped:', error.message);
+                                }
+                            });
+                    }
+
+                    function scheduleRoomAvailabilityRefresh() {
+                        clearTimeout(liveAvailabilityRequestTimer);
+                        liveAvailabilityRequestTimer = setTimeout(refreshRoomAvailabilityFromServer, 250);
+                    }
+
+                    function applyRoomAvailabilityToDropdowns(fetchFromServer = true) {
+                        if (fetchFromServer) scheduleRoomAvailabilityRefresh();
+
+                        const checkin = document.getElementById('sidebarCheckin')?.value || document.getElementById('checkin')?.value || '';
+                        const checkout = document.getElementById('sidebarCheckout')?.value || document.getElementById('checkout')?.value || '';
+
+                        document.querySelectorAll('.room-number-select').forEach(select => {
+                            let availableCount = 0;
+
+                            Array.from(select.options).forEach(option => {
+                                const originalText = option.dataset.originalText || option.textContent.replace(' - Occupied', '');
+                                option.dataset.originalText = originalText;
+
+                                const booked = isRoomBookedForSelectedDates(option.value, checkin, checkout);
+                                option.disabled = booked;
+                                option.textContent = booked ? `${originalText} - Occupied` : originalText;
+                                if (!booked) availableCount++;
+                            });
+
+                            if (select.selectedOptions[0]?.disabled) {
+                                const firstAvailable = Array.from(select.options).find(option => !option.disabled);
+                                if (firstAvailable) select.value = firstAvailable.value;
+                                else select.selectedIndex = -1;
+                            }
+
+                            const card = select.closest('.room-card');
+                            if (!card) return;
+
+                            const counter = card.querySelector('.room-number');
+                            const badge = card.querySelector('.room-status-badge');
+                            const strip = card.querySelector('.status-strip');
+                            const note = card.querySelector('.status-note');
+                            const button = card.querySelector('.btn-blue');
+
+                            if (counter) counter.textContent = `${availableCount} available room${availableCount === 1 ? '' : 's'}`;
+                            if (note) note.textContent = availableCount > 0 ? 'Available for your dates' : 'Fully occupied for selected dates';
+                            if (button) button.disabled = availableCount === 0;
+
+                            card.dataset.status = availableCount > 0 ? 'vacant' : 'occupied';
+                            card.classList.toggle('disabled', availableCount === 0);
+
+                            if (badge) {
+                                badge.classList.toggle('vacant', availableCount > 0);
+                                badge.classList.toggle('occupied', availableCount === 0);
+                                badge.innerHTML = availableCount > 0
+                                    ? '<i class="fas fa-check-circle"></i> Vacant'
+                                    : '<i class="fas fa-ban"></i> Occupied';
+                            }
+
+                            if (strip) {
+                                strip.classList.toggle('vacant', availableCount > 0);
+                                strip.classList.toggle('occupied', availableCount === 0);
+                            }
+                        });
+                    }
                     function updateSearch() {
                         const checkin = document.getElementById('sidebarCheckin').value;
                         const checkout = document.getElementById('sidebarCheckout').value;
@@ -6520,6 +6450,7 @@ function loadSavedReservations() {
                             return;
                         }
                         updateGuestSummary();
+                        applyRoomAvailabilityToDropdowns();
                         showToast('Search updated!');
                     }
                     function resetFilters() {
@@ -6532,7 +6463,6 @@ function loadSavedReservations() {
         card.style.display = "flex";
     });
                     }
-<<<<<<< HEAD
 
                     function reserveGroupedRoom(button, event) {
                         if (event) {
@@ -6555,15 +6485,20 @@ function loadSavedReservations() {
                             return;
                         }
 
+                        const checkin = document.getElementById('sidebarCheckin')?.value || document.getElementById('checkin')?.value || '';
+                        const checkout = document.getElementById('sidebarCheckout')?.value || document.getElementById('checkout')?.value || '';
+                        if (isRoomBookedForSelectedDates(roomNumber, checkin, checkout)) {
+                            showToast('This room is already occupied for the selected date.');
+                            applyRoomAvailabilityToDropdowns();
+                            return;
+                        }
+
                         selectRoom(roomNumber, roomName, roomPrice, roomImage, roomStatus);
                     }
-=======
->>>>>>> ba6aca4359c23d52b4c13df9fef06393eb0b685b
                     function selectRoom(number, name, price, image, status, dates) {
                         if (!requireLogin()) return;
                         if (status !== 'vacant') return;
                         selectedRoom = { number, name, price, image, status, dates };
-<<<<<<< HEAD
 
                         const roomNumberInt = parseInt(number, 10);
                         let assignedRoomType = 'Standard';
@@ -6572,8 +6507,6 @@ function loadSavedReservations() {
                         else if (roomNumberInt >= 401 && roomNumberInt <= 405) assignedRoomType = 'Executive Suite';
                         else if (roomNumberInt >= 501 && roomNumberInt <= 505) assignedRoomType = 'Family Room';
                         bookingExtras.roomTypeName = assignedRoomType;
-=======
->>>>>>> ba6aca4359c23d52b4c13df9fef06393eb0b685b
                         const adults = document.getElementById('sidebarAdults').value || 2;
                         const children = document.getElementById('sidebarChildren').value || 0;
                         bookingExtras.adults = parseInt(adults);
@@ -6586,10 +6519,7 @@ function loadSavedReservations() {
                         document.getElementById('selectedRoomStatus').textContent = 'Vacant - Available';
                         document.getElementById('summaryRoomNumber').textContent = `Room ${number}`;
                         document.getElementById('summaryRoomType').textContent = name;
-<<<<<<< HEAD
                         document.getElementById('summaryRoomTypeSelected').textContent = bookingExtras.roomTypeName;
-=======
->>>>>>> ba6aca4359c23d52b4c13df9fef06393eb0b685b
                         document.getElementById('summaryImage').src = image;
                         syncBookingSummaryDates();
                         updateBookingGuests();
@@ -6683,6 +6613,26 @@ function loadSavedReservations() {
                         showToast('This room is currently occupied. Please select a vacant room.');
                     }
 
+
+                    function initLiveRoomAvailabilityRefresh() {
+                        ['checkin', 'checkout', 'sidebarCheckin', 'sidebarCheckout'].forEach(id => {
+                            const input = document.getElementById(id);
+                            if (!input || input.dataset.liveAvailabilityBound === '1') return;
+                            input.dataset.liveAvailabilityBound = '1';
+                            input.addEventListener('change', function () {
+                                applyRoomAvailabilityToDropdowns();
+                            });
+                        });
+
+                        applyRoomAvailabilityToDropdowns();
+                    }
+
+                    if (document.readyState === 'loading') {
+                        document.addEventListener('DOMContentLoaded', initLiveRoomAvailabilityRefresh);
+                    } else {
+                        initLiveRoomAvailabilityRefresh();
+                    }
+
                     // ==================== BOOKING ====================
                     function updateBookingGuests() {
                         const adults = parseInt(document.getElementById('bookingAdults').value) || 0;
@@ -6742,7 +6692,6 @@ function loadSavedReservations() {
                     }
 
                     function getRoomDatabaseId(roomNumber) {
-<<<<<<< HEAD
                         // StayEase room numbers must match the Django Admin room_number field.
                         // Correct mapping:
                         // Standard: 101-110
@@ -6752,14 +6701,6 @@ function loadSavedReservations() {
                         // Family Room: 501-505
                         // Example: Room 303 must submit to /booking/303/, not /booking/203/.
                         const numericRoom = parseInt(roomNumber, 10);
-=======
-                        // Static UI rooms are 101, 102, 103... while Django Room IDs are usually 1, 2, 3...
-                        // Example: Room 101 -> /booking/1/, Room 102 -> /booking/2/
-                        const numericRoom = parseInt(roomNumber, 10);
-                        if (!Number.isNaN(numericRoom) && numericRoom >= 101) {
-                            return numericRoom - 100;
-                        }
->>>>>>> ba6aca4359c23d52b4c13df9fef06393eb0b685b
                         return numericRoom || 1;
                     }
                     let pendingBookingData = null;
@@ -6789,6 +6730,13 @@ function loadSavedReservations() {
                         const totalPrice = document.getElementById('priceTotal')?.textContent || '';
                         const specialRequests = document.getElementById('specialRequests')?.value || '';
                         const selectedPayment = document.querySelector('.payment-option.selected div[style*="font-weight"]')?.innerText?.trim() || 'Selected Payment Method';
+
+                        if (isRoomBookedForSelectedDates(selectedRoom.number, checkin, checkout)) {
+                            showToast('This room is already occupied for the selected date. Please choose another room.');
+                            applyRoomAvailabilityToDropdowns();
+                            navigateTo('search');
+                            return;
+                        }
 
                         pendingBookingData = {
                             id: Date.now(),
@@ -6848,11 +6796,8 @@ function loadSavedReservations() {
                         document.getElementById('djangoBookingSpecialRequests').value = pendingBookingData.specialRequests;
                         document.getElementById('djangoBookingPaymentMethod').value = pendingBookingData.paymentMethod;
                         
-<<<<<<< HEAD
                         sessionStorage.setItem("lastPendingBookingLocalId", String(pendingBookingData.id));
 
-=======
->>>>>>> ba6aca4359c23d52b4c13df9fef06393eb0b685b
                         let savedReservations = JSON.parse(localStorage.getItem(getUserStorageKey("stayeaseReservations"))) || [];
                         savedReservations.unshift(pendingBookingData);
                         localStorage.setItem(getUserStorageKey("stayeaseReservations"), JSON.stringify(savedReservations));
@@ -6876,10 +6821,7 @@ function loadSavedReservations() {
 
                     function addReservationCard() {
                         newReservationCount++;
-<<<<<<< HEAD
                         const bookingDisplayId = getDisplayBookingId();
-=======
->>>>>>> ba6aca4359c23d52b4c13df9fef06393eb0b685b
 
                         const reservationList = document.querySelector("#upcoming .reservation-list");
 
@@ -6890,11 +6832,7 @@ function loadSavedReservations() {
         <div class="reservation-header">
             <div class="reservation-ref">
                 <div>
-<<<<<<< HEAD
                     <div class="ref-number">Booking ID: ${bookingDisplayId}</div>
-=======
-                    <div class="ref-number">Booking #SE-NEW-${String(newReservationCount).padStart(3, '0')}</div>
->>>>>>> ba6aca4359c23d52b4c13df9fef06393eb0b685b
                     <div class="ref-date">Booked today</div>
                 </div>
             </div>
@@ -7125,19 +7063,13 @@ function loadSavedReservations() {
                             return;
                         }
 
-<<<<<<< HEAD
                         const savedReservations = JSON.parse(localStorage.getItem(getUserStorageKey("stayeaseReservations"))) || [];
                         const cancelledReservations = JSON.parse(localStorage.getItem(getUserStorageKey("stayeaseCancelledReservations"))) || [];
-=======
-                        let savedReservations = JSON.parse(localStorage.getItem(getUserStorageKey("stayeaseReservations"))) || [];
-                        let cancelledReservations = JSON.parse(localStorage.getItem(getUserStorageKey("stayeaseCancelledReservations"))) || [];
->>>>>>> ba6aca4359c23d52b4c13df9fef06393eb0b685b
 
                         const reservationIndex = savedReservations.findIndex(
                             r => String(r.id) === String(pendingCancelReservationId)
                         );
 
-<<<<<<< HEAD
                         if (reservationIndex !== -1) {
                             const cancelledReservation = {
                                 ...savedReservations[reservationIndex],
@@ -7156,36 +7088,10 @@ function loadSavedReservations() {
 
                         window.location.href = `/cancel-reservation/${pendingCancelReservationId}/`;
                         return;
-=======
-                        if (reservationIndex === -1) {
-                            showToast('Reservation not found.');
-                            closeCancelModal();
-                            return;
-                        }
-
-                        const cancelledReservation = {
-                            ...savedReservations[reservationIndex],
-                            status: "cancelled",
-                            cancelledDate: new Date().toLocaleDateString()
-                        };
-
-                        savedReservations.splice(reservationIndex, 1);
-                        cancelledReservations.unshift(cancelledReservation);
-
-                        localStorage.setItem(getUserStorageKey("stayeaseReservations"), JSON.stringify(savedReservations));
-                        localStorage.setItem(getUserStorageKey("stayeaseCancelledReservations"), JSON.stringify(cancelledReservations));
-
-                        closeCancelModal();
-                        loadSavedReservations();
-                        switchTab('cancelled', document.querySelector("#reservationsPage .tab[onclick*='cancelled']"));
-                        navigateTo('reservations');
-                        showToast('Reservation cancelled. Moved to Cancelled tab.');
->>>>>>> ba6aca4359c23d52b4c13df9fef06393eb0b685b
                     }
 
                     function getRoomNightlyPrice(roomNumber, fallbackTotal, checkin, checkout) {
                         const roomPrices = {
-<<<<<<< HEAD
                             '101': 5500,
                             '102': 5500,
                             '103': 5500,
@@ -7221,14 +7127,6 @@ function loadSavedReservations() {
                             '503': 15000,
                             '504': 15000,
                             '505': 15000
-=======
-                            '101': 8500,
-                            '102': 12000,
-                            '103': 5500,
-                            '104': 25000,
-                            '105': 15000,
-                            '106': 7200
->>>>>>> ba6aca4359c23d52b4c13df9fef06393eb0b685b
                         };
 
                         if (roomPrices[String(roomNumber)]) return roomPrices[String(roomNumber)];
@@ -7425,9 +7323,13 @@ document.addEventListener('click', function (event) {
                         updateCountdown();
 
                     });
+
+
+                    document.addEventListener('DOMContentLoaded', function () {
+                        applyRoomAvailabilityToDropdowns();
+                    });
                 </script>
                 
-<<<<<<< HEAD
             <script>
             window.addEventListener("DOMContentLoaded", syncLatestBookingIdFromUrl);
 
@@ -7480,8 +7382,6 @@ document.addEventListener('click', function (event) {
 </script>
 
                 
-=======
->>>>>>> ba6aca4359c23d52b4c13df9fef06393eb0b685b
 <script>
     function openPolicy(type) {
     const title = document.getElementById("policyTitle");
@@ -7972,6 +7872,7 @@ window.addEventListener("hashchange", showPageFromHash);
         if ($('sidebarChildren') && $('homeChildren')) $('sidebarChildren').value = $('homeChildren').value;
 
         updateGuestSummaryFixed();
+        if (typeof applyRoomAvailabilityToDropdowns === 'function') applyRoomAvailabilityToDropdowns();
         if (typeof filterRooms === 'function') filterRooms();
         if (typeof navigateTo === 'function') navigateTo('search');
         else if (typeof showPage === 'function') showPage('searchPage');
@@ -7997,6 +7898,7 @@ window.addEventListener("hashchange", showPageFromHash);
 
         updateGuestSummaryFixed();
         window.syncBookingSummaryDates();
+        if (typeof applyRoomAvailabilityToDropdowns === 'function') applyRoomAvailabilityToDropdowns();
         if (typeof filterRooms === 'function') filterRooms();
         if (typeof showToast === 'function') showToast('Search updated!');
     };
@@ -8753,12 +8655,8 @@ function openReviewForReservation(reservationId) {
         return;
     }
 
-<<<<<<< HEAD
         showReviewModal({
         booking_id: reservation.booking_id || reservation.bookingId || reservation.reservation_id || null,
-=======
-    showReviewModal({
->>>>>>> ba6aca4359c23d52b4c13df9fef06393eb0b685b
         id: reservation.id,
         room: reservation.roomNumber ? `Room ${reservation.roomNumber}` : 'Your Room',
         roomType: reservation.roomName || '',
@@ -8777,7 +8675,6 @@ function showReviewModal(stayData) {
     }
 
     _reviewRating = 0;
-<<<<<<< HEAD
 
     _reviewReservationId =
     stayData?.booking_id
@@ -8785,9 +8682,6 @@ function showReviewModal(stayData) {
     || stayData?.reservation_id
     || stayData?.id
     || null;
-=======
-    _reviewReservationId = stayData?.id ? String(stayData.id) : null;
->>>>>>> ba6aca4359c23d52b4c13df9fef06393eb0b685b
 
     const comment = document.getElementById('reviewComment');
     const charCount = document.getElementById('reviewCharCount');
@@ -8878,16 +8772,11 @@ function submitReview() {
     reviews.unshift({
         reservationId: _reviewReservationId,
         rating: _reviewRating,
-<<<<<<< HEAD
         comment: comment,   
-=======
-        comment: comment,
->>>>>>> ba6aca4359c23d52b4c13df9fef06393eb0b685b
         submittedAt: new Date().toISOString()
     });
 
     localStorage.setItem('stayeaseReviews', JSON.stringify(reviews));
-<<<<<<< HEAD
     const urlBookingId = String(_reviewReservationId);
 
     let pastReservations = JSON.parse(
@@ -8933,10 +8822,6 @@ function submitReview() {
     saveReviewedReservationId(_reviewReservationId);
     form.submit();
     return;
-=======
-    saveReviewedReservationId(_reviewReservationId);
-
->>>>>>> ba6aca4359c23d52b4c13df9fef06393eb0b685b
     if (typeof loadSavedReservations === 'function') {
         loadSavedReservations();
     }
@@ -9039,7 +8924,6 @@ window.addEventListener('focus', function () {
     </div>
 </div>
 
-<<<<<<< HEAD
 
 <script>
 /* =========================
@@ -9185,9 +9069,4 @@ window.addEventListener('focus', function () {
 </script>
 
 </body>
-=======
-</body>
-
-
->>>>>>> ba6aca4359c23d52b4c13df9fef06393eb0b685b
 </html> 

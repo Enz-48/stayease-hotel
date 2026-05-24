@@ -9,13 +9,11 @@ urlpatterns = [
     path('booking/<int:room_id>/', views.booking, name='booking'),
     path('submit-review/<int:booking_id>/', views.submit_review, name='submit_review'),
 
-
     path("my-reservations/", views.my_reservations, name="my_reservations"),
 
     path("forgot-password/", views.forgot_password, name="forgot_password"),
     path("verify-reset-otp/", views.verify_reset_otp, name="verify_reset_otp_page"),
     path("reset-password/", views.reset_password, name="reset_password"),
     path("cancel-reservation/<int:booking_id>/", views.cancel_reservation, name="cancel_reservation"),
-
-
+    path('room-availability-status/', views.room_availability_status, name='room_availability_status'),
 ]

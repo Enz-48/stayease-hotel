@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.http import JsonResponse
 from django.core.mail import send_mail, EmailMultiAlternatives
 from django.contrib import messages
 from django.conf import settings
@@ -6,6 +7,74 @@ from django.template.loader import render_to_string
 from .models import Register, Room, Reservation, Rating, Payment
 import random
 from datetime import date, datetime, timedelta
+
+
+# ==================== ROOM AVAILABILITY HELPERS ====================
+def parse_booking_date(value, fallback=None):
+    """Safely convert form date values to date objects."""
+    if isinstance(value, date):
+        return value
+    if not value:
+        return fallback or date.today()
+    try:
+        return datetime.strptime(str(value), "%Y-%m-%d").date()
+    except (TypeError, ValueError):
+        return fallback or date.today()
+
+
+def has_room_date_conflict(room, check_in, check_out, exclude_booking_id=None):
+    """
+    Returns True when the selected room already has an active reservation
+    that overlaps the requested date range.
+    Overlap formula: existing_check_in < new_check_out AND existing_check_out > new_check_in.
+    """
+    active_statuses = ["Pending", "Confirmed", "Received", "Paid", "pending", "confirmed", "received", "paid"]
+    conflicts = Reservation.objects.filter(
+        room=room,
+        status__in=active_statuses,
+        check_in__lt=check_out,
+        check_out__gt=check_in,
+    )
+    if exclude_booking_id:
+        conflicts = conflicts.exclude(booking_id=exclude_booking_id)
+    return conflicts.exists()
+
+
+def room_is_blocked(room):
+    """Permanent/manual room blocking for maintenance or admin-set occupied rooms."""
+    return str(getattr(room, "room_status", "vacant") or "vacant").lower() in ["occupied", "maintenance", "unavailable"]
+
+
+
+def room_availability_status(request):
+    """AJAX endpoint used by finalhtml.html to refresh room availability without reloading the page."""
+    check_in = parse_booking_date(request.GET.get('check_in'))
+    check_out = parse_booking_date(request.GET.get('check_out'), fallback=check_in + timedelta(days=1))
+
+    active_statuses = ["Pending", "Confirmed", "Received", "Paid", "pending", "confirmed", "received", "paid"]
+
+    reservations = Reservation.objects.filter(
+        status__in=active_statuses,
+        check_in__lt=check_out,
+        check_out__gt=check_in,
+    ).select_related('room')
+
+    blocked_rooms = Room.objects.filter(
+        room_status__in=["occupied", "maintenance", "unavailable", "Occupied", "Maintenance", "Unavailable"]
+    )
+
+    return JsonResponse({
+        "reservations": [
+            {
+                "roomNumber": str(reservation.room.room_number),
+                "checkin": reservation.check_in.strftime("%Y-%m-%d"),
+                "checkout": reservation.check_out.strftime("%Y-%m-%d"),
+                "status": reservation.status,
+            }
+            for reservation in reservations
+        ],
+        "blockedRooms": [str(room.room_number) for room in blocked_rooms],
+    })
 
 def home(request):
     message = ""
@@ -264,123 +333,125 @@ def booking(request, room_id):
     if request.method == 'POST':
         print("BOOKING FORM DATA:", request.POST)
 
-        if room_type.available_rooms > 0:
-            room_type.available_rooms -= 1
-            room_type.save()
+        guest_email = request.POST.get('email')
+        guest_name = request.POST.get('fullname') or request.POST.get('name') or "Guest"
+        services = request.POST.get('services') or "No additional services selected"
 
-            room.room_status = "pending"
-            room.save()
+        check_in = parse_booking_date(
+            request.POST.get('check_in')
+            or request.POST.get('checkin')
+            or request.POST.get('checkIn')
+        )
 
-            Reservation.objects.filter(
-                room=room,
-                status="Pending"
-            ).update(status="Pending")
+        check_out = parse_booking_date(
+            request.POST.get('check_out')
+            or request.POST.get('checkout')
+            or request.POST.get('checkOut'),
+            fallback=check_in + timedelta(days=1)
+        )
 
-            guest_email = request.POST.get('email')
-            guest_name = request.POST.get('fullname') or request.POST.get('name') or "Guest"
-            services = request.POST.get('services') or "No additional services selected"
+        if check_out <= check_in:
+            messages.error(request, "Invalid booking dates. Check-out must be after check-in.")
+            return redirect('/#homePage')
 
-            check_in = (
-                request.POST.get('check_in')
-                or request.POST.get('checkin')
-                or request.POST.get('checkIn')
-                or date.today()
+        # Combined availability protection:
+        # 1) respect permanent/manual room status, and
+        # 2) prevent same-room date overlap from active reservations.
+        if room_is_blocked(room):
+            messages.error(request, "This room is currently occupied or unavailable.")
+            return redirect('/#homePage')
+
+        if has_room_date_conflict(room, check_in, check_out):
+            messages.error(request, "This room is already occupied for the selected date.")
+            return redirect('/#homePage')
+
+        adults = request.POST.get('adults') or 1
+        children = request.POST.get('children') or 0
+
+        guest = Register.objects.filter(email=guest_email).first()
+
+        if not guest:
+            guest = Register.objects.create(
+                firstname=guest_name,
+                lastname="",
+                email=guest_email or "noemail@example.com",
+                contact=request.POST.get('contact') or "",
+                address=request.POST.get('address') or "",
+                username=guest_email or f"guest{random.randint(1000, 9999)}",
+                password="guest123"
             )
 
-            check_out = (
-                request.POST.get('check_out')
-                or request.POST.get('checkout')
-                or request.POST.get('checkOut')
-                or date.today()
-            )
+        reservation = Reservation.objects.create(
+            guest=guest,
+            room=room,
+            check_in=check_in,
+            check_out=check_out,
+            adults=adults,
+            children=children,
+            status="Pending"
+        )
 
-            adults = request.POST.get('adults') or 1
-            children = request.POST.get('children') or 0
+        # NOTE: Do not permanently reduce RoomType.available_rooms or set the room_status
+        # to pending here. Availability is date-based, while room_status is reserved for
+        # manual/general blocking such as occupied, maintenance, or unavailable.
 
-            guest = Register.objects.filter(email=guest_email).first()
+        total_price = request.POST.get('total_price') or room.price
+        payment_method = request.POST.get('payment_method') or "Not specified"
 
-            if not guest:
-                guest = Register.objects.create(
-                    firstname=guest_name,
-                    lastname="",
-                    email=guest_email or "noemail@example.com",
-                    contact=request.POST.get('contact') or "",
-                    address=request.POST.get('address') or "",
-                    username=guest_email or f"guest{random.randint(1000, 9999)}",
-                    password="guest123"
+        total_price = str(total_price).replace("₱", "").replace(",", "").strip()
+
+        Payment.objects.create(
+            reservation=reservation,
+            payment_method=payment_method,
+            amount_paid=total_price,
+            payment_status="Paid"
+        )
+
+        print("PAYMENT SAVED")
+
+        if guest_email:
+            try:
+                html_content = render_to_string('stayease_booking_email.html', {
+                    'reservation': reservation,
+                    'guest_name': guest_name,
+                    'room': room,
+                    'check_in': check_in,
+                    'check_out': check_out,
+                    'adults': adults,
+                    'children': children,
+                    'payment_method': payment_method,
+                    'total_price': total_price,
+                    'services': services,
+                })
+
+                email = EmailMultiAlternatives(
+                    subject='Booking Confirmed - StayEase',
+                    body='Your booking has been confirmed.',
+                    from_email=settings.DEFAULT_FROM_EMAIL,
+                    to=[guest_email],
                 )
 
-            reservation = Reservation.objects.create(
-                guest=guest,
-                room=room,
-                check_in=check_in,
-                check_out=check_out,
-                adults=adults,
-                children=children,
-                status="Pending"
-            )
+                email.attach_alternative(html_content, "text/html")
+                email.send()
 
-            total_price = request.POST.get('total_price') or room.price
-            payment_method = request.POST.get('payment_method') or "Not specified"
+                print("BOOKING EMAIL SENT SUCCESSFULLY")
+                messages.success(request, "Booking successful! Reservation saved and confirmation email sent.")
 
-            total_price = str(total_price).replace("₱", "").replace(",", "").strip()
+            except Exception as e:
+                print("BOOKING EMAIL FAILED:", e)
+                messages.success(request, "Booking successful and reservation saved, but email was not sent.")
 
-            Payment.objects.create(
-                reservation=reservation,
-                payment_method=payment_method,
-                amount_paid=total_price,
-                payment_status="Paid"
-            )
+        else:
+            messages.success(request, "Booking successful.")
 
-            print("PAYMENT SAVED")
-
-            if guest_email:
-                try:
-                    html_content = render_to_string('stayease_booking_email.html', {
-                        'reservation': reservation,
-                        'guest_name': guest_name,
-                        'room': room,
-                        'check_in': check_in,
-                        'check_out': check_out,
-                        'adults': adults,
-                        'children': children,
-                        'payment_method': payment_method,
-                        'total_price': total_price,
-                        'services': services,
-                    })
-
-                    email = EmailMultiAlternatives(
-                        subject='Booking Confirmed - StayEase',
-                        body='Your booking has been confirmed.',
-                        from_email=settings.DEFAULT_FROM_EMAIL,
-                        to=[guest_email],
-                    )
-
-                    email.attach_alternative(html_content, "text/html")
-                    email.send()
-
-                    print("BOOKING EMAIL SENT SUCCESSFULLY")
-                    messages.success(request, "Booking successful! Reservation saved and confirmation email sent.")
-
-                except Exception as e:
-                    print("BOOKING EMAIL FAILED:", e)
-                    messages.success(request, "Booking successful and reservation saved, but email was not sent.")
-
-            else:
-                messages.success(request, "Booking successful.")
-
-            return redirect(f'/?booking_id={reservation.booking_id}#homePage')
-
-        messages.error(request, "No rooms available for this room type.")
-        return redirect('/#homePage')
+        return redirect(f'/homepage/?booking_id={reservation.booking_id}#homePage')
 
     return render(request, 'booking.html', {
         'room': room
     })
 
-
 def homepage(request):
-    return redirect('/#homePage')
+    return my_reservations(request)
 
 def submit_review(request, booking_id):
     if request.method == 'POST':
